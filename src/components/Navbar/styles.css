@@ -1,0 +1,19 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    border-bottom: var(--width-separator-thin) solid var(--color-separator);
+    background-color: var(--color-background-navbar);
+    padding: calc(var(--spacing-large) - var(--spacing-medium));
+
+    .brand {
+        flex-grow: 1;
+        padding: var(--spacing-medium);
+        font-size: var(--font-size-extra-large);
+        font-weight: var(--font-weight-bold);
+    }
+
+    .right-container {
+        flex-shrink: 0;
+        padding: var(--spacing-medium);
+    }
+}

@@ -4,6 +4,7 @@ import View, { ViewProps } from '#components/View';
 export function wrap<T extends string, K extends { className?: string }>(
     props: ViewProps<K> & { path: T },
 ) {
+    console.log(props);
     const {
         path,
         component,
@@ -28,9 +29,9 @@ const routeSettings = {
     home: wrap({
         path: '/',
         title: 'Home',
-        component: lazy(() => import('../views/Home')),
+        component: lazy(() => import('../components/Navbar')),
         componentProps: {},
-        visibility: 'is-authenticated',
+        visibility: 'is-not-authenticated',
         navbarVisibility: true,
     }),
     login: wrap({
@@ -55,6 +56,17 @@ export const lostRoute = {
             navbarVisibility
         />
     ),
+};
+
+export const DashboardRouteSetting = {
+    dashboard: wrap({
+        path: '/dashboard',
+        title: 'Dashboard',
+        component: lazy(() => import('#views/Home')),
+        componentProps: {},
+        visibility: 'is-not-authenticated',
+        navbarVisibility: false,
+    }),
 };
 
 export default routeSettings;

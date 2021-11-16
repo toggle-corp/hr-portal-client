@@ -1,19 +1,127 @@
-.navbar {
+/*.home {
     display: flex;
-    align-items: center;
-    border-bottom: var(--width-separator-thin) solid var(--color-separator);
-    background-color: var(--color-background-navbar);
-    padding: calc(var(--spacing-large) - var(--spacing-medium));
+    margin: auto;
+    background-color: var(--color-background);
+    width: 100vw;
+    height: 100vh;
+}
+*/
+.layout {
+    --top-nav-height:60px;
+    --side-nav-width:220px;
+    --white:#fff;
 
-    .brand {
-        flex-grow: 1;
-        padding: var(--spacing-medium);
-        font-size: var(--font-size-extra-large);
-        font-weight: var(--font-weight-bold);
+    .home {
+        display: flex;
+
+        .sidenav {
+            border-right: 1px solid #ebe5e5;
+            background-color: #fff;
+            width: var(--side-nav-width);
+            height: 100vh;
+
+            .logo-container {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                border-bottom: 1px solid #ebe5e5;
+                box-shadow: 0px 2px 5px #f3efef;
+                padding: var(--spacing-extra-large);
+                height: var(--top-nav-height);
+            }
+
+            .nav-text {
+                margin-top: 10px;
+                padding: var(--spacing-medium) 0;
+                height: 60px;
+                list-style: none;
+            }
+            .nav-text a {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                padding: 0 var(--spacing-extra-large);
+                height: 100%;
+                text-decoration: none;
+                font-size: var(--font-size-large);
+            }
+            .nav-text a:hover {
+                background-color: #e8833a;
+                color: #fff;
+            }
+        }
+
+        .topnav {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ebe5e5;
+            box-shadow: 0px 2px 5px #f3efef;
+            background-color: var(--white);
+            padding: var(--spacing-large);
+            width:calc(100vw - var(--side-nav-width));
+            height:var(--top-nav-height);
+
+            .brand > svg {
+                width: 1.2rem;
+                height: 1.2rem;
+            }
+
+            .right-container {
+                display: flex;
+                flex: auto;
+                flex-shrink: 0;
+                justify-content: flex-end;
+                padding: var(--spacing-medium);
+
+                .icon-bell {
+                    display: flex;
+                    align-items:center;
+                    padding:0 var(--spacing-extra-large);
+                    svg {
+                        width: 1.2rem;
+                        height: 1.2rem;
+                    }
+                }
+                .avatar-container {
+                    padding:0 var(--spacing-medium);
+                    .avatar {
+                        --size:2.2rem;
+                    }
+                }
+                .user-info-container {
+                    padding:0 var(--spacing-small);
+                    .user-name {
+                        font-size: var(--font-size-medium);
+                    }
+                    .user-position {
+                        font-size: var(--font-size-small);
+                    }
+                }
+                .icon-down {
+                    padding-top: 3px;
+                }
+            }
+        }
     }
-
-    .right-container {
-        flex-shrink: 0;
-        padding: var(--spacing-medium);
+    .content {
+        display: flex;
+        position: absolute;
+        top: 80px;
+        left: var(--side-nav-width);
+        padding: var(--spacing-large);
+    }
+    .footer {
+        display: flex;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid #ebe5e5;
+        box-shadow: 0px 2px 5px #f3efef;
+        background-color: var(--white);
+        padding: var(--spacing-large);
+        width:calc(100vw - var(--side-nav-width));
+        height:var(--top-nav-height);
     }
 }

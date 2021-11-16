@@ -1,9 +1,13 @@
 import React, { useCallback, useContext } from 'react';
-import { Button } from '@togglecorp/toggle-ui';
 import { _cs } from '@togglecorp/fujs';
+import * as FaIcons from 'react-icons/fa';
+import * as GiIcons from 'react-icons/gi';
 
+import { Link } from 'react-router-dom';
+import { Avatar } from '@togglecorp/toggle-ui';
 import { useLazyRequest } from '#utils/request';
 import DomainContext from '#components/DomainContext';
+import SidebarData from '#components/SidebarData';
 
 import styles from './styles.css';
 
@@ -11,7 +15,7 @@ interface Props {
     className?: string;
 }
 
-function Home(props: Props) {
+function Navbar(props: Props) {
     const { className } = props;
     const { setUser } = useContext(DomainContext);
 
@@ -31,21 +35,53 @@ function Home(props: Props) {
     }, [logout]);
 
     return (
-        <div className={_cs(className, styles.navbar)}>
-            <div className={styles.brand}>
-                Mera
+        <div className={_cs(className, styles.layout)}>
+            <div className={_cs(className, styles.home)}>
+                <div className={styles.sidenav}>
+                    <div className={styles.logoContainer}>
+                        ToggleCorp
+                    </div>
+                    {SidebarData.map((item) => (
+                        <li className={styles.navText}>
+                            <Link to={item.path}>
+                                <span>{item.title}</span>
+                            </Link>
+                        </li>
+                    ))}
+                </div>
+                <div className={styles.topnav}>
+                    <div className={styles.brand}>
+                        <GiIcons.GiHamburgerMenu />
+                    </div>
+                    <div className={styles.rightContainer}>
+                        <div className={styles.iconBell}>
+                            <FaIcons.FaBell />
+                        </div>
+                        <div className={styles.avatarContainer}>
+                            <Avatar
+                                alt="Ram Bahadur"
+                                className={styles.avatar}
+                                src="https://images.freeimages.com/images/large-previews/023/geek-avatar-1632962.jpg"
+                            />
+                        </div>
+                        <div className={styles.userInfoContainer}>
+                            <p className={styles.userName}>Jhon Doe</p>
+                            <p className={styles.userPosition}>Developer</p>
+                        </div>
+                        <div className={styles.iconDown}>
+                            <FaIcons.FaAngleDown />
+                        </div>
+                    </div>
+                </div>
+                <div className={styles.content}>
+                    content
+                </div>
             </div>
-            <div className={styles.rightContainer}>
-                <Button
-                    variant="primary"
-                    name={undefined}
-                    onClick={handleLogoutClick}
-                >
-                    Logout
-                </Button>
+            <div className={styles.footer}>
+                Copyright &copy; 2021 ToggleCorp. All rights reserved.
             </div>
         </div>
     );
 }
 
-export default Home;
+export default Navbar;

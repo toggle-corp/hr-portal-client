@@ -1,24 +1,23 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import { createDateColumn, createDateTimeColumn, createNumberColumn, createStringColumn, createYesNoColumn, Table } from '@togglecorp/toggle-ui';
+import { createDateTimeColumn, createStringColumn, Table } from '@togglecorp/toggle-ui';
 import styles from './styles.css';
 
 interface Props {
     className?: string;
 }
+interface Program {
+    requestType: string;
+    duration: string;
+    dated: string;
+    leaveType: string;
+    remarks?: string;
+    status: string;
+}
 
 function Leave(props: Props) {
     const { className } = props;
-
-    interface Program {
-        requestType: string;
-        duration: string;
-        dated: string;
-        leaveType: string;
-        remarks?: string;
-        status: string;
-    }
     const data: Program[] = [
         {
             requestType: 'One Day',

@@ -3,7 +3,7 @@ import React from 'react';
 const SidebarData = [
     {
         title: 'Dashboard',
-        path: '/dashboard',
+        path: '/',
     },
     {
         title: 'My Leave',

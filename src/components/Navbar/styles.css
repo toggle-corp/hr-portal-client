@@ -1,11 +1,3 @@
-/*.home {
-    display: flex;
-    margin: auto;
-    background-color: var(--color-background);
-    width: 100vw;
-    height: 100vh;
-}
-*/
 .layout {
     --top-nav-height:60px;
     --side-nav-width:220px;
@@ -46,6 +38,10 @@
                 font-size: var(--font-size-large);
             }
             .nav-text a:hover {
+                background-color: #e8833a;
+                color: #fff;
+            }
+            .nav-text a:focus{
                 background-color: #e8833a;
                 color: #fff;
             }

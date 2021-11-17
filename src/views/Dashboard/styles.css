@@ -1,0 +1,51 @@
+.dashboard {
+    margin: auto;
+    background-color: var(--color-background);
+    
+    .card-container {
+        border: 1px solid #ebe5e5;
+        padding: var(--spacing-extra-large);
+        width: 250px;
+
+        .card-leave {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-extra-large) 0;
+            padding-top: 0;
+            .remaining-leave, .total-leave {
+                width: 50%;
+                text-align: center;
+                font-size: var(--font-size-large-medium);
+                font-weight: var(--font-weight-bold);
+            }
+            hr {
+                height: 50px;
+            }
+        }
+
+        button {
+            background-color: #e8833a;
+            width: 100%;
+            text-align: center;
+            color:#fff;
+        }
+    }
+    .today-leave-container {
+        padding: var(--spacing-extra-large) 0;
+        .title{
+            font-size: var(--font-size-large);
+            font-weight: var(--font-weight-bold);
+        }
+        .leave-lists {
+            p{
+                padding: var(--spacing-extra-small);
+                font-size: var(--font-size-large-medium);
+
+                svg{
+                    margin-right:5px;
+                }
+            }
+        }
+    }
+}

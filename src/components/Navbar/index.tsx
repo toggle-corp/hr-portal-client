@@ -13,10 +13,11 @@ import styles from './styles.css';
 
 interface Props {
     className?: string;
+    children?: any,
 }
 
 function Navbar(props: Props) {
-    const { className } = props;
+    const { className, children } = props;
     const { setUser } = useContext(DomainContext);
 
     const {
@@ -74,7 +75,7 @@ function Navbar(props: Props) {
                     </div>
                 </div>
                 <div className={styles.content}>
-                    content
+                    {children}
                 </div>
             </div>
             <div className={styles.footer}>

@@ -7,14 +7,14 @@ interface Props {
     className?: string;
 }
 
-function Home(props: Props) {
+function Leave(props: Props) {
     const { className } = props;
 
     return (
-        <div className={_cs(className, styles.home)}>
-            Mera
+        <div className={_cs(className, styles.leave)}>
+            My Leave
         </div>
     );
 }
 
-export default Home;
+export default Leave;

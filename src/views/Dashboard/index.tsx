@@ -24,12 +24,12 @@ function Dashboard(props: Props) {
         <div className={_cs(className, styles.dashboard)}>
             <div className={styles.cardContainer}>
                 <div className={styles.cardLeave}>
-                    <div className={styles.remainingLeave}>
+                    <div className={styles.leaveText}>
                         <p>7</p>
                         <p>Remaining</p>
                     </div>
                     <hr />
-                    <div className={styles.totalLeave}>
+                    <div className={styles.leaveText}>
                         <p>24</p>
                         <p>Total</p>
                     </div>

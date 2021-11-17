@@ -13,7 +13,7 @@
             justify-content: center;
             padding: var(--spacing-extra-large) 0;
             padding-top: 0;
-            .remaining-leave, .total-leave {
+            .leave-text {
                 width: 50%;
                 text-align: center;
                 font-size: var(--font-size-large-medium);
@@ -38,6 +38,7 @@
             font-weight: var(--font-weight-bold);
         }
         .leave-lists {
+            padding: var(--spacing-medium) 0;
             p{
                 padding: var(--spacing-extra-small);
                 font-size: var(--font-size-large-medium);

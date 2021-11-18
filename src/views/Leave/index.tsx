@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import { Button, createDateTimeColumn, createStringColumn, Table } from '@togglecorp/toggle-ui';
 import * as FaIcons from 'react-icons/fa';
 
 import styles from './styles.css';
+import LeaveModal from '#components/LeaveModal';
 
 interface Props {
     className?: string;
@@ -20,13 +21,24 @@ interface Program {
 }
 
 function Leave(props: Props) {
+    const [showModal, setShowModal] = useState<boolean>(false);
+
+    const handleModalClose = () => {
+        setShowModal(false);
+    };
+
+    const TagElement = (items: string) => (
+        <div className={styles.tags}>{items}</div>
+    );
+
     const { className } = props;
+
     const data: Program[] = [
         {
             id: 1,
-            requestType: 'One Day',
+            requestType: 'Multiple Days',
             dated: '2012-10-12T12:00:00',
-            duration: '1 Day',
+            duration: '5 Day',
             leaveType: 'Sick',
             remarks: '',
             status: 'Pending',
@@ -151,7 +163,7 @@ function Leave(props: Props) {
         createStringColumn<Program, number>(
             'status',
             'Stauts',
-            (item) => item.status,
+            (item) => TagElement(item.status),
             {
                 sortable: true,
                 orderable: true,
@@ -164,7 +176,7 @@ function Leave(props: Props) {
         <div className={_cs(className, styles.leave)}>
             <div className={styles.btnContainer}>
                 <p>My Leaves</p>
-                <Button name="applyLeave" icons={<FaIcons.FaRegCalendarAlt />}>
+                <Button onClick={() => setShowModal(true)} name="applyLeave" icons={<FaIcons.FaRegCalendarAlt />}>
                     Apply Leave
                 </Button>
             </div>
@@ -176,6 +188,8 @@ function Leave(props: Props) {
                     data={data}
                 />
             </div>
+
+            <LeaveModal showModal={showModal} handleModalClose={handleModalClose} />
         </div>
     );
 }

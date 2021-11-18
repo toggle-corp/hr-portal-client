@@ -78,7 +78,7 @@ function View<T extends { className?: string }>(props: ViewProps<T>) {
 
     return (
         <>
-            <DocumentTitle value={title} />
+            <DocumentTitle value={`Mera | ${title}`} />
             <Comp
                 className={styles.view}
                 {...componentProps}

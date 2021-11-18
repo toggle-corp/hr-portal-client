@@ -1,15 +1,43 @@
 .leave {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin: auto;
     background-color: var(--color-background);
+    
+    table {
+        background-color: #fff;
+        cursor: pointer;
 
-    tr > td > div {
-        padding-left: inherit;
+        thead > tr > th {
+            padding: var(--spacing-medium);
+        }
 
+        tbody > tr > td {
+            padding: var(--spacing-large-medium) var(--spacing-large);
+        }
+
+        tr > td > div {
+            padding-left: inherit;
+    
+        }
+        td > time {
+            padding-left: inherit;
+        }
     }
-    td > time {
-        padding-left: inherit;
+
+    .btn-container{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--spacing-extra-large) 0;
+
+        p {
+            cursor: pointer;
+            font-size: var(--font-size-large);
+        }
+        
+        button {
+            background-color: #e8833a;
+            text-align: center;
+            color:#fff;
+        }
     }
 }

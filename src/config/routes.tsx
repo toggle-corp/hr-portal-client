@@ -4,7 +4,6 @@ import View, { ViewProps } from '#components/View';
 export function wrap<T extends string, K extends { className?: string }>(
     props: ViewProps<K> & { path: T },
 ) {
-    console.log(props);
     const {
         path,
         component,

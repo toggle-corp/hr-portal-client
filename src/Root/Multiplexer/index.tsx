@@ -4,7 +4,6 @@ import { _cs } from '@togglecorp/fujs';
 import { PendingMessage } from '@togglecorp/toggle-ui';
 
 import DomainContext from '#components/DomainContext';
-
 import { User } from '#types';
 
 import routeSettings, { dashboardRouteSetting, lostRoute } from '#config/routes';
@@ -67,8 +66,6 @@ function Multiplexer(props: Props) {
         navbarVisibility,
         setNavbarVisibility,
     };
-    console.log(domainContextValue);
-
     return (
         <BrowserRouter>
             <DomainContext.Provider value={domainContextValue}>

@@ -3,7 +3,7 @@ import { _cs } from '@togglecorp/fujs';
 import * as FaIcons from 'react-icons/fa';
 import * as GiIcons from 'react-icons/gi';
 
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Avatar } from '@togglecorp/toggle-ui';
 import { useLazyRequest } from '#utils/request';
 import DomainContext from '#components/DomainContext';
@@ -13,7 +13,7 @@ import styles from './styles.css';
 
 interface Props {
     className?: string;
-    children?: any,
+    children?: any;
 }
 
 function Navbar(props: Props) {
@@ -44,9 +44,16 @@ function Navbar(props: Props) {
                     </div>
                     {SidebarData.map((item) => (
                         <li className={styles.navText}>
-                            <Link to={item.path}>
+                            <NavLink
+                                exact
+                                to={item.path}
+                                style={(isActive) => ({
+                                    color: isActive ? '#fff' : '',
+                                    backgroundColor: isActive ? '#e8833a' : '',
+                                })}
+                            >
                                 <span>{item.title}</span>
-                            </Link>
+                            </NavLink>
                         </li>
                     ))}
                 </div>

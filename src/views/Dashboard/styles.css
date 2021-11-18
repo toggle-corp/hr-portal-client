@@ -14,6 +14,7 @@
             padding: var(--spacing-extra-large) 0;
             padding-top: 0;
             .leave-text {
+                cursor: pointer;
                 width: 50%;
                 text-align: center;
                 font-size: var(--font-size-large-medium);
@@ -38,6 +39,7 @@
             font-weight: var(--font-weight-bold);
         }
         .leave-lists {
+            cursor: pointer;
             padding: var(--spacing-medium) 0;
             p{
                 padding: var(--spacing-extra-small);

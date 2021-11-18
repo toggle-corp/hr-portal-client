@@ -38,10 +38,7 @@
                 font-size: var(--font-size-large);
             }
             .nav-text a:hover {
-                background-color: #e8833a;
-                color: #fff;
-            }
-            .nav-text a:focus{
+                transition: all 150ms ease;
                 background-color: #e8833a;
                 color: #fff;
             }
@@ -102,9 +99,10 @@
     .content {
         display: flex;
         position: absolute;
-        top: 80px;
+        top: 60px;
         left: var(--side-nav-width);
         padding: var(--spacing-large);
+        overflow-y: scroll;
     }
     .footer {
         display: flex;

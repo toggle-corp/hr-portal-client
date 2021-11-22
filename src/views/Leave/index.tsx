@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import { Button, createDateTimeColumn, createStringColumn, Table } from '@togglecorp/toggle-ui';

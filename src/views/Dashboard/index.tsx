@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { lazy, useState } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import { Button } from '@togglecorp/toggle-ui';
 import * as AiIcons from 'react-icons/Ai';
+import * as FaIcons from 'react-icons/fa';
 import styles from './styles.css';
+
+const LeaveModal = lazy(() => import('#components/LeaveModal'));
 
 interface Props {
     className?: string;
@@ -19,6 +22,11 @@ const TodayLeave = [
 
 function Dashboard(props: Props) {
     const { className } = props;
+    const [showModal, setShowModal] = useState<boolean>(false);
+
+    const handleModalClose = () => {
+        setShowModal(false);
+    };
 
     return (
         <div className={_cs(className, styles.dashboard)}>
@@ -34,7 +42,11 @@ function Dashboard(props: Props) {
                         <p>Total</p>
                     </div>
                 </div>
-                <Button name="applyLeave">
+                <Button
+                    onClick={() => setShowModal(true)}
+                    name="applyLeave"
+                    icons={<FaIcons.FaRegCalendarAlt />}
+                >
                     Apply Leave
                 </Button>
             </div>
@@ -50,6 +62,10 @@ function Dashboard(props: Props) {
                     ))}
                 </div>
             </div>
+            <LeaveModal
+                showModal={showModal}
+                handleModalClose={handleModalClose}
+            />
         </div>
     );
 }

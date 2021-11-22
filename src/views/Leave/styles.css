@@ -5,6 +5,7 @@
     table {
         background-color: #fff;
         cursor: pointer;
+        width: 100%;
 
         thead > tr > th {
             padding: var(--spacing-medium);

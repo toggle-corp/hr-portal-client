@@ -70,13 +70,13 @@ function Multiplexer(props: Props) {
         <BrowserRouter>
             <DomainContext.Provider value={domainContextValue}>
                 <div className={_cs(className, styles.multiplexer)}>
-                    <Suspense
-                        fallback={(
-                            <PendingMessage message="Loading page..." />
-                        )}
-                    >
-                        {!navbarVisibility && !authenticated && (
-                            <Navbar>
+                    {!navbarVisibility && !authenticated && (
+                        <Navbar>
+                            <Suspense
+                                fallback={(
+                                    <PendingMessage message="Loading page..." />
+                                )}
+                            >
                                 <Route
                                     exact
                                     path={dashboardRouteSetting.dashboard.path}
@@ -87,9 +87,9 @@ function Multiplexer(props: Props) {
                                     path={dashboardRouteSetting.leave.path}
                                     render={dashboardRouteSetting.leave.load}
                                 />
-                            </Navbar>
-                        )}
-                    </Suspense>
+                            </Suspense>
+                        </Navbar>
+                    )}
                 </div>
             </DomainContext.Provider>
         </BrowserRouter>

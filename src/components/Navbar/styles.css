@@ -102,7 +102,7 @@
         top: 60px;
         left: var(--side-nav-width);
         padding: var(--spacing-large);
-        overflow-y: scroll;
+        width: calc(100% - var(--side-nav-width));
     }
     .footer {
         display: flex;

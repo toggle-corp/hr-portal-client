@@ -1,11 +1,11 @@
-import React, { ReactElement, useState } from 'react';
+import React, { lazy, useState } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import { Button, createDateTimeColumn, createStringColumn, Table } from '@togglecorp/toggle-ui';
 import * as FaIcons from 'react-icons/fa';
-
 import styles from './styles.css';
-import LeaveModal from '#components/LeaveModal';
+
+const LeaveModal = lazy(() => import('#components/LeaveModal'));
 
 interface Props {
     className?: string;
@@ -176,7 +176,11 @@ function Leave(props: Props) {
         <div className={_cs(className, styles.leave)}>
             <div className={styles.btnContainer}>
                 <p>My Leaves</p>
-                <Button onClick={() => setShowModal(true)} name="applyLeave" icons={<FaIcons.FaRegCalendarAlt />}>
+                <Button
+                    onClick={() => setShowModal(true)}
+                    name="applyLeave"
+                    icons={<FaIcons.FaRegCalendarAlt />}
+                >
                     Apply Leave
                 </Button>
             </div>
@@ -189,7 +193,10 @@ function Leave(props: Props) {
                 />
             </div>
 
-            <LeaveModal showModal={showModal} handleModalClose={handleModalClose} />
+            <LeaveModal
+                showModal={showModal}
+                handleModalClose={handleModalClose}
+            />
         </div>
     );
 }

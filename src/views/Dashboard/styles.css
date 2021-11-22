@@ -26,9 +26,10 @@
         }
 
         button {
+            display: flex;
+            justify-content: center;
             background-color: #e8833a;
             width: 100%;
-            text-align: center;
             color:#fff;
         }
     }

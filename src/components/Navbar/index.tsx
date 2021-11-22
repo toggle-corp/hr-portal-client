@@ -7,15 +7,40 @@ import { NavLink } from 'react-router-dom';
 import { Avatar } from '@togglecorp/toggle-ui';
 import { useLazyRequest } from '#utils/request';
 import DomainContext from '#components/DomainContext';
-import SidebarData from '#components/SidebarData';
 
 import styles from './styles.css';
 
 interface Props {
     className?: string;
-    children?: any;
+    children?: React.ReactNode;
 }
-
+const SidebarData = [
+    {
+        id: 1,
+        title: 'Dashboard',
+        path: '/',
+    },
+    {
+        id: 2,
+        title: 'My Leave',
+        path: '/leave',
+    },
+    {
+        id: 3,
+        title: 'Attendance',
+        path: '/attendance',
+    },
+    {
+        id: 4,
+        title: 'Timesheet',
+        path: '/timesheet',
+    },
+    {
+        id: 5,
+        title: 'Payroll',
+        path: '/payrool',
+    },
+];
 function Navbar(props: Props) {
     const { className, children } = props;
     const { setUser } = useContext(DomainContext);
@@ -43,13 +68,13 @@ function Navbar(props: Props) {
                         ToggleCorp
                     </div>
                     {SidebarData.map((item) => (
-                        <li className={styles.navText}>
+                        <li key={item.id} className={styles.navText}>
                             <NavLink
                                 exact
                                 to={item.path}
                                 style={(isActive) => ({
-                                    color: isActive ? '#fff' : '',
-                                    backgroundColor: isActive ? '#e8833a' : '',
+                                    color: isActive ? 'var(--color-foreground)' : 'var(--color-text)',
+                                    backgroundColor: isActive ? 'var(--color-primary)' : '',
                                 })}
                             >
                                 <span>{item.title}</span>

@@ -24,8 +24,8 @@ function Dashboard(props: Props) {
     const { className } = props;
     const [showModal, setShowModal] = useState<boolean>(false);
 
-    const handleModalClose = () => {
-        setShowModal(false);
+    const handleModalChange = () => {
+        setShowModal(!showModal);
     };
 
     return (
@@ -43,7 +43,7 @@ function Dashboard(props: Props) {
                     </div>
                 </div>
                 <Button
-                    onClick={() => setShowModal(true)}
+                    onClick={handleModalChange}
                     name="applyLeave"
                     icons={<FaIcons.FaRegCalendarAlt />}
                 >
@@ -63,8 +63,8 @@ function Dashboard(props: Props) {
                 </div>
             </div>
             <LeaveModal
-                showModal={showModal}
-                handleModalClose={handleModalClose}
+                modalShown={showModal}
+                handleModalClose={handleModalChange}
             />
         </div>
     );

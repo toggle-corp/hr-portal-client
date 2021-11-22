@@ -1,4 +1,4 @@
-import React, { lazy, useState } from 'react';
+import React, { lazy, useCallback, useState } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import { Button, createDateTimeColumn, createStringColumn, Table } from '@togglecorp/toggle-ui';
@@ -21,17 +21,8 @@ interface Program {
 }
 
 function Leave(props: Props) {
-    const [showModal, setShowModal] = useState<boolean>(false);
-
-    const handleModalClose = () => {
-        setShowModal(false);
-    };
-
-    const TagElement = (items: string) => (
-        <div className={styles.tags}>{items}</div>
-    );
-
     const { className } = props;
+    const [showModal, setShowModal] = useState<boolean>(false);
 
     const data: Program[] = [
         {
@@ -171,13 +162,25 @@ function Leave(props: Props) {
             },
         ),
     ];
-    const tableKeySelector = (p: Program) => p.id;
+
+    const handleModalChange = () => {
+        setShowModal(!showModal);
+    };
+
+    const TagElement = (items: string) => (
+        <div className={styles.tags}>{items}</div>
+    );
+
+    const tableKeySelector = useCallback((p: Program) => (
+        p.id
+    ), [data]);
+
     return (
         <div className={_cs(className, styles.leave)}>
             <div className={styles.btnContainer}>
                 <p>My Leaves</p>
                 <Button
-                    onClick={() => setShowModal(true)}
+                    onClick={handleModalChange}
                     name="applyLeave"
                     icons={<FaIcons.FaRegCalendarAlt />}
                 >
@@ -194,8 +197,8 @@ function Leave(props: Props) {
             </div>
 
             <LeaveModal
-                showModal={showModal}
-                handleModalClose={handleModalClose}
+                modalShown={showModal}
+                handleModalClose={handleModalChange}
             />
         </div>
     );

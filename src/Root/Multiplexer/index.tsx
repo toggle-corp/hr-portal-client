@@ -6,7 +6,7 @@ import { PendingMessage } from '@togglecorp/toggle-ui';
 import DomainContext from '#components/DomainContext';
 import { User } from '#types';
 
-import routeSettings, { dashboardRouteSetting, lostRoute } from '#config/routes';
+import routeSettings, { lostRoute } from '#config/routes';
 import { useRequest } from '#utils/request';
 import Navbar from '#components/Navbar';
 
@@ -79,13 +79,13 @@ function Multiplexer(props: Props) {
                             >
                                 <Route
                                     exact
-                                    path={dashboardRouteSetting.dashboard.path}
-                                    render={dashboardRouteSetting.dashboard.load}
+                                    path={routeSettings.dashboard.path}
+                                    render={routeSettings.dashboard.load}
                                 />
                                 <Route
                                     exact
-                                    path={dashboardRouteSetting.leave.path}
-                                    render={dashboardRouteSetting.leave.load}
+                                    path={routeSettings.leave.path}
+                                    render={routeSettings.leave.load}
                                 />
                             </Suspense>
                         </Navbar>

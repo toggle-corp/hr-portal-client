@@ -1,10 +1,9 @@
 import React, { useCallback, useContext } from 'react';
 import { _cs } from '@togglecorp/fujs';
-import * as FaIcons from 'react-icons/fa';
-import * as GiIcons from 'react-icons/gi';
-
-import { NavLink } from 'react-router-dom';
 import { Avatar } from '@togglecorp/toggle-ui';
+import { NavLink } from 'react-router-dom';
+import { IoNotifications, IoMenu, IoChevronDown } from 'react-icons/io5';
+
 import { useLazyRequest } from '#utils/request';
 import DomainContext from '#components/DomainContext';
 
@@ -14,7 +13,13 @@ interface Props {
     className?: string;
     children?: React.ReactNode;
 }
-const SidebarData = [
+interface Program {
+    id: number;
+    title: string,
+    path: string,
+}
+
+const sidebarData: Program[] = [
     {
         id: 1,
         title: 'Dashboard',
@@ -41,8 +46,12 @@ const SidebarData = [
         path: '/payrool',
     },
 ];
+
 function Navbar(props: Props) {
-    const { className, children } = props;
+    const {
+        className,
+        children,
+    } = props;
     const { setUser } = useContext(DomainContext);
 
     const {
@@ -63,11 +72,11 @@ function Navbar(props: Props) {
     return (
         <div className={_cs(className, styles.layout)}>
             <div className={_cs(className, styles.home)}>
-                <div className={styles.sidenav}>
+                <div className={styles.sideNav}>
                     <div className={styles.logoContainer}>
-                        ToggleCorp
+                        Togglecorp
                     </div>
-                    {SidebarData.map((item) => (
+                    {sidebarData.map((item) => (
                         <li key={item.id} className={styles.navText}>
                             <NavLink
                                 exact
@@ -84,15 +93,15 @@ function Navbar(props: Props) {
                 </div>
                 <div className={styles.topnav}>
                     <div className={styles.brand}>
-                        <GiIcons.GiHamburgerMenu />
+                        <IoMenu />
                     </div>
                     <div className={styles.rightContainer}>
                         <div className={styles.iconBell}>
-                            <FaIcons.FaBell />
+                            <IoNotifications />
                         </div>
                         <div className={styles.avatarContainer}>
                             <Avatar
-                                alt="Ram Bahadur"
+                                alt=""
                                 className={styles.avatar}
                                 src="https://images.freeimages.com/images/large-previews/023/geek-avatar-1632962.jpg"
                             />
@@ -102,7 +111,7 @@ function Navbar(props: Props) {
                             <p className={styles.userPosition}>Developer</p>
                         </div>
                         <div className={styles.iconDown}>
-                            <FaIcons.FaAngleDown />
+                            <IoChevronDown />
                         </div>
                     </div>
                 </div>
@@ -116,5 +125,4 @@ function Navbar(props: Props) {
         </div>
     );
 }
-
 export default Navbar;

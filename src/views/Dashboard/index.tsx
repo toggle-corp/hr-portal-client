@@ -1,9 +1,8 @@
-import React, { lazy, useState } from 'react';
+import React, { lazy, useCallback, useState } from 'react';
 import { _cs } from '@togglecorp/fujs';
-
 import { Button } from '@togglecorp/toggle-ui';
-import * as AiIcons from 'react-icons/Ai';
-import * as FaIcons from 'react-icons/fa';
+import { IoCalendarOutline, IoHomeSharp } from 'react-icons/io5';
+
 import styles from './styles.css';
 
 const LeaveModal = lazy(() => import('#components/LeaveModal'));
@@ -11,22 +10,23 @@ const LeaveModal = lazy(() => import('#components/LeaveModal'));
 interface Props {
     className?: string;
 }
-const TodayLeave = [
+
+const todayLeave = [
     {
+        id: 1,
         description: 'Richard is off sick today.',
     },
     {
+        id: 2,
         description: 'Richard is off sick today.',
     },
 ];
 
 function Dashboard(props: Props) {
     const { className } = props;
-    const [showModal, setShowModal] = useState<boolean>(false);
+    const [showModal, setShowModal] = useState(false);
 
-    const handleModalChange = () => {
-        setShowModal(!showModal);
-    };
+    const handleModalChange = useCallback(() => setShowModal(!showModal), [showModal]);
 
     return (
         <div className={_cs(className, styles.dashboard)}>
@@ -45,18 +45,17 @@ function Dashboard(props: Props) {
                 <Button
                     onClick={handleModalChange}
                     name="applyLeave"
-                    icons={<FaIcons.FaRegCalendarAlt />}
+                    icons={<IoCalendarOutline />}
                 >
                     Apply Leave
                 </Button>
             </div>
-
             <div className={styles.todayLeaveContainer}>
                 <p className={styles.title}>Today</p>
                 <div className={styles.leaveLists}>
-                    {TodayLeave.map((item) => (
-                        <p>
-                            <AiIcons.AiFillHome />
+                    {todayLeave.map((item) => (
+                        <p key={item.id}>
+                            <IoHomeSharp />
                             {item.description}
                         </p>
                     ))}
@@ -69,5 +68,4 @@ function Dashboard(props: Props) {
         </div>
     );
 }
-
 export default Dashboard;

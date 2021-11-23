@@ -13,6 +13,7 @@
             justify-content: center;
             padding: var(--spacing-extra-large) 0;
             padding-top: 0;
+
             .leave-text {
                 cursor: pointer;
                 width: 50%;
@@ -20,6 +21,7 @@
                 font-size: var(--font-size-large-medium);
                 font-weight: var(--font-weight-bold);
             }
+
             hr {
                 height: 50px;
             }
@@ -33,15 +35,19 @@
             color:#fff;
         }
     }
+
     .today-leave-container {
         padding: var(--spacing-extra-large) 0;
+
         .title{
             font-size: var(--font-size-large);
             font-weight: var(--font-weight-bold);
         }
+
         .leave-lists {
             cursor: pointer;
             padding: var(--spacing-medium) 0;
+
             p{
                 padding: var(--spacing-extra-small);
                 font-size: var(--font-size-large-medium);

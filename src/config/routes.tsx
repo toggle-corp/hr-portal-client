@@ -25,10 +25,18 @@ export function wrap<T extends string, K extends { className?: string }>(
 }
 
 const routeSettings = {
-    home: wrap({
-        path: '/home',
-        title: 'Leave Tracker',
-        component: lazy(() => import('../components/Navbar')),
+    dashboard: wrap({
+        path: '/',
+        title: 'Dashboard',
+        component: lazy(() => import('#views/Dashboard')),
+        componentProps: {},
+        visibility: 'is-not-authenticated',
+        navbarVisibility: false,
+    }),
+    leave: wrap({
+        path: '/leave',
+        title: 'Leave',
+        component: lazy(() => import('#views/Leave')),
         componentProps: {},
         visibility: 'is-not-authenticated',
         navbarVisibility: false,
@@ -56,24 +64,4 @@ export const lostRoute = {
         />
     ),
 };
-
-export const dashboardRouteSetting = {
-    dashboard: wrap({
-        path: '/',
-        title: 'Dashboard',
-        component: lazy(() => import('#views/Dashboard')),
-        componentProps: {},
-        visibility: 'is-not-authenticated',
-        navbarVisibility: false,
-    }),
-    leave: wrap({
-        path: '/leave',
-        title: 'Leave',
-        component: lazy(() => import('#views/Leave')),
-        componentProps: {},
-        visibility: 'is-not-authenticated',
-        navbarVisibility: false,
-    }),
-};
-
 export default routeSettings;

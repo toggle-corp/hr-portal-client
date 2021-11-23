@@ -1,11 +1,10 @@
 .leave {
     margin: auto;
     background-color: var(--color-background);
-    
+
     table {
         background-color: #fff;
         cursor: pointer;
-        width: 100%;
 
         thead > tr > th {
             padding: var(--spacing-medium);
@@ -17,8 +16,8 @@
 
         tr > td > div {
             padding-left: inherit;
-    
         }
+
         td > time {
             padding-left: inherit;
         }
@@ -43,7 +42,7 @@
             cursor: pointer;
             font-size: var(--font-size-large);
         }
-        
+
         button {
             background-color: #e8833a;
             text-align: center;

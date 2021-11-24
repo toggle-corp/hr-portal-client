@@ -19,87 +19,86 @@ interface Program {
     remarks?: string;
     status: string;
 }
+const data: Program[] = [
+    {
+        id: 1,
+        requestType: 'Multiple Days',
+        dated: '2012-10-12T12:00:00',
+        duration: '5 Day',
+        leaveType: 'Sick',
+        remarks: '',
+        status: 'Pending',
+    },
+    {
+        id: 2,
+        requestType: 'One Day',
+        dated: '2012-10-12T12:00:00',
+        duration: '1 Day',
+        leaveType: 'Sick',
+        remarks: '',
+        status: 'Pending',
+    },
+    {
+        id: 3,
+        requestType: 'One Day',
+        dated: '2012-10-12T12:00:00',
+        duration: '1 Day',
+        leaveType: 'Sick',
+        remarks: '',
+        status: 'Pending',
+    },
+    {
+        id: 4,
+        requestType: 'One Day',
+        dated: '2012-10-12T12:00:00',
+        duration: '1 Day',
+        leaveType: 'Sick',
+        remarks: '',
+        status: 'Pending',
+    },
+    {
+        id: 5,
+        requestType: 'One Day',
+        dated: '2012-10-12T12:00:00',
+        duration: '1 Day',
+        leaveType: 'Sick',
+        remarks: '',
+        status: 'Pending',
+    },
+    {
+        id: 6,
+        requestType: 'One Day',
+        dated: '2012-10-12T12:00:00',
+        duration: '1 Day',
+        leaveType: 'Sick',
+        remarks: '',
+        status: 'Pending',
+    },
+    {
+        id: 7,
+        requestType: 'One Day',
+        dated: '2012-10-12T12:00:00',
+        duration: '1 Day',
+        leaveType: 'Sick',
+        remarks: '',
+        status: 'Pending',
+    },
+    {
+        id: 8,
+        requestType: 'One Day',
+        dated: '2012-10-12T12:00:00',
+        duration: '1 Day',
+        leaveType: 'Sick',
+        remarks: '',
+        status: 'Pending',
+    },
+];
 
 const tableKeySelector = ((p: Program) => (p.id));
 
 function Leave(props: Props) {
     const { className } = props;
     const [showModal, setShowModal] = useState(false);
-
-    const data: Program[] = useMemo(() => [
-        {
-            id: 1,
-            requestType: 'Multiple Days',
-            dated: '2012-10-12T12:00:00',
-            duration: '5 Day',
-            leaveType: 'Sick',
-            remarks: '',
-            status: 'Pending',
-        },
-        {
-            id: 2,
-            requestType: 'One Day',
-            dated: '2012-10-12T12:00:00',
-            duration: '1 Day',
-            leaveType: 'Sick',
-            remarks: '',
-            status: 'Pending',
-        },
-        {
-            id: 3,
-            requestType: 'One Day',
-            dated: '2012-10-12T12:00:00',
-            duration: '1 Day',
-            leaveType: 'Sick',
-            remarks: '',
-            status: 'Pending',
-        },
-        {
-            id: 4,
-            requestType: 'One Day',
-            dated: '2012-10-12T12:00:00',
-            duration: '1 Day',
-            leaveType: 'Sick',
-            remarks: '',
-            status: 'Pending',
-        },
-        {
-            id: 5,
-            requestType: 'One Day',
-            dated: '2012-10-12T12:00:00',
-            duration: '1 Day',
-            leaveType: 'Sick',
-            remarks: '',
-            status: 'Pending',
-        },
-        {
-            id: 6,
-            requestType: 'One Day',
-            dated: '2012-10-12T12:00:00',
-            duration: '1 Day',
-            leaveType: 'Sick',
-            remarks: '',
-            status: 'Pending',
-        },
-        {
-            id: 7,
-            requestType: 'One Day',
-            dated: '2012-10-12T12:00:00',
-            duration: '1 Day',
-            leaveType: 'Sick',
-            remarks: '',
-            status: 'Pending',
-        },
-        {
-            id: 8,
-            requestType: 'One Day',
-            dated: '2012-10-12T12:00:00',
-            duration: '1 Day',
-            leaveType: 'Sick',
-            remarks: '',
-            status: 'Pending',
-        },
-    ], []);
 
     const columns = [
         createStringColumn<Program, number>(

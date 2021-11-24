@@ -20,9 +20,6 @@ interface Program {
     status: string;
 }
 
-const tagElement = (items: string) => (
-    <div className={styles.tags}>{items}</div>
-);
 const tableKeySelector = ((p: Program) => (p.id));
 
 function Leave(props: Props) {
@@ -157,8 +154,8 @@ function Leave(props: Props) {
         ),
         createStringColumn<Program, number>(
             'status',
-            'Stauts',
-            (item) => tagElement(item.status),
+            'Status',
+            (item) => item.status,
             {
                 sortable: true,
                 orderable: true,

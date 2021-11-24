@@ -37,7 +37,7 @@ const sidebarData: Program[] = [
     },
     {
         id: 4,
-        title: 'Timesheet',
+        title: 'Time sheet',
         path: '/timesheet',
     },
     {
@@ -91,7 +91,7 @@ function Navbar(props: Props) {
                         </li>
                     ))}
                 </div>
-                <div className={styles.topnav}>
+                <div className={styles.topNav}>
                     <div className={styles.brand}>
                         <IoMenu />
                     </div>
@@ -120,7 +120,7 @@ function Navbar(props: Props) {
                 </div>
             </div>
             <div className={styles.footer}>
-                Copyright &copy; 2021 ToggleCorp. All rights reserved.
+                Copyright &copy; 2021 Togglecorp. All rights reserved.
             </div>
         </div>
     );

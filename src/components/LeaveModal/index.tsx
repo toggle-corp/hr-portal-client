@@ -52,7 +52,7 @@ const options: Option[] = [
     },
     {
         key: '5',
-        label: 'Bereaevment Leave',
+        label: 'Bereavement Leave',
         parentKey: '5',
         parentLabel: '',
     },
@@ -138,7 +138,7 @@ function LeaveModal(props: Props) {
                             error={error?.fields?.additionalInformation}
                         />
                         <TextInput
-                            label="Number of Day"
+                            label="Number of Day/s"
                             name="numberOfDay"
                             value={value.numberOfDay}
                             error={error?.fields?.numberOfDay}

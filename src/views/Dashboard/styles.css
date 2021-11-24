@@ -1,9 +1,11 @@
 .dashboard {
+    display: grid;
     margin: auto;
     background-color: var(--color-background);
+    gap: 30px;
     
     .card-container {
-        border: 1px solid #ebe5e5;
+        border: 1px solid var(--color-border);
         padding: var(--spacing-extra-large);
         width: 250px;
 
@@ -30,14 +32,16 @@
         button {
             display: flex;
             justify-content: center;
-            background-color: #e8833a;
+            background-color: var(--color-primary);
             width: 100%;
-            color:#fff;
+            color:var(--color-text-on-primary);
         }
     }
 
     .today-leave-container {
-        padding: var(--spacing-extra-large) 0;
+        display: grid;
+        cursor: pointer;
+        gap: 10px;
 
         .title{
             font-size: var(--font-size-large);
@@ -45,16 +49,10 @@
         }
 
         .leave-lists {
-            cursor: pointer;
-            padding: var(--spacing-medium) 0;
 
-            p{
-                padding: var(--spacing-extra-small);
-                font-size: var(--font-size-large-medium);
-
-                svg{
-                    margin-right:5px;
-                }
+            .todayLeaveUser {
+                display: flex;
+                gap: 10px;
             }
         }
     }

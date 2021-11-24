@@ -43,7 +43,7 @@ const sidebarData: Program[] = [
     {
         id: 5,
         title: 'Payroll',
-        path: '/payrool',
+        path: '/payroll',
     },
 ];
 

@@ -1,14 +1,13 @@
 .layout {
     --top-nav-height:60px;
     --side-nav-width:220px;
-    --white:#fff;
 
     .home {
         display: flex;
 
         .side-nav {
             border-right: 1px solid var(--color-border);
-            background-color: #fff;
+            background-color: var(--color-foreground);
             width: var(--side-nav-width);
             height: 100vh;
 
@@ -42,7 +41,7 @@
             .nav-text a:hover {
                 transition: all 150ms ease;
                 background-color: var(--color-primary);
-                color: var(--color-foreground);
+                color: var(--color-text-on-primary);
             }
 
         }
@@ -52,7 +51,7 @@
             align-items: center;
             border-bottom: 1px solid var(--color-border);
             box-shadow: 0px 2px 5px var(--color-shadow);
-            background-color: var(--white);
+            background-color: var(--color-foreground);
             padding: var(--spacing-large);
             width:calc(100vw - var(--side-nav-width));
             height:var(--top-nav-height);
@@ -126,7 +125,7 @@
         justify-content: center;
         border-bottom: 1px solid var(--color-border);
         box-shadow: 0px 2px 5px var(--color-shadow);
-        background-color: var(--white);
+        background-color: var(--color-foreground);
         padding: var(--spacing-large);
         width:calc(100vw - var(--side-nav-width));
         height:var(--top-nav-height);

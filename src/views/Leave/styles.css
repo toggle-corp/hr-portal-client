@@ -44,9 +44,9 @@
         }
 
         button {
-            background-color: #e8833a;
+            background-color: var(--color-primary);
             text-align: center;
-            color:#fff;
+            color:var(--color-text-on-primary);
         }
     }
 }

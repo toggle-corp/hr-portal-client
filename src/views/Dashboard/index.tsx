@@ -1,4 +1,4 @@
-import React, { lazy, useCallback, useState } from 'react';
+import React, { lazy, useCallback, useMemo, useState } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { Button } from '@togglecorp/toggle-ui';
 import { IoCalendarOutline, IoHomeSharp } from 'react-icons/io5';
@@ -11,20 +11,20 @@ interface Props {
     className?: string;
 }
 
-const todayLeave = [
-    {
-        id: 1,
-        description: 'Richard is off sick today.',
-    },
-    {
-        id: 2,
-        description: 'Richard is off sick today.',
-    },
-];
-
 function Dashboard(props: Props) {
     const { className } = props;
     const [showModal, setShowModal] = useState(false);
+
+    const todayLeave = useMemo(() => [
+        {
+            id: 1,
+            description: 'Richard is off sick today.',
+        },
+        {
+            id: 2,
+            description: 'Richard is off sick today.',
+        },
+    ], []);
 
     const handleModalChange = useCallback(() => setShowModal(!showModal), [showModal]);
 
@@ -51,13 +51,13 @@ function Dashboard(props: Props) {
                 </Button>
             </div>
             <div className={styles.todayLeaveContainer}>
-                <p className={styles.title}>Today</p>
+                <div className={styles.title}>Today</div>
                 <div className={styles.leaveLists}>
                     {todayLeave.map((item) => (
-                        <p key={item.id}>
-                            <IoHomeSharp />
-                            {item.description}
-                        </p>
+                        <div key={item.id} className={styles.todayLeaveUser}>
+                            <div><IoHomeSharp /></div>
+                            <div>{item.description}</div>
+                        </div>
                     ))}
                 </div>
             </div>

@@ -1,7 +1,12 @@
 import React, { useMemo } from 'react';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import { ApolloClient, ApolloProvider } from '@apollo/client';
+import {
+    ApolloClient,
+    ApolloProvider,
+} from '@apollo/client';
+import apolloConfig from '#config/apollo';
+import '@togglecorp/toggle-ui/build/index.css';
 
 import { RequestContext } from '#utils/request';
 import {
@@ -11,16 +16,12 @@ import {
     processError,
     MeraContextInterface,
 } from '#utils/request/mera';
-
-import '@togglecorp/toggle-ui/build/index.css';
-import apolloConfig from '#config/apollo';
 import '../../node_modules/mapbox-gl/dist/mapbox-gl.css';
-import './styles.css';
-
 import Multiplexer from './Multiplexer';
 
-const apolloClient = new ApolloClient(apolloConfig);
+import './styles.css';
 
+const apolloClient = new ApolloClient(apolloConfig);
 const history = createBrowserHistory();
 
 function Root() {
@@ -41,5 +42,4 @@ function Root() {
         </Router>
     );
 }
-
 export default Root;

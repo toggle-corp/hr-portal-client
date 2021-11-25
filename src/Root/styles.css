@@ -32,11 +32,13 @@
     --font-weight-bold: 700;
 
     /* COLOR PALETTE */
-    --color-primary: #111246;
+    --color-primary: #e8833a;
     --color-accent: #3e42df;
     --color-danger: #e04656;
     --color-success: #26c569;
     --color-warning: #efe045;
+    --color-border: #ebe5e5;
+    --color-shadow: #f3efef;
 
     --tui-color-primary: var(--color-primary);
     --tui-color-accent: var(--color-accent);

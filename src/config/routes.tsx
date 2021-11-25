@@ -25,21 +25,29 @@ export function wrap<T extends string, K extends { className?: string }>(
 }
 
 const routeSettings = {
-    home: wrap({
+    dashboard: wrap({
         path: '/',
-        title: 'Home',
-        component: lazy(() => import('../views/Home')),
-        componentProps: {},
-        visibility: 'is-authenticated',
-        navbarVisibility: true,
-    }),
-    login: wrap({
-        path: '/login/',
-        title: 'Login',
-        component: lazy(() => import('../views/Login')),
+        title: 'Dashboard',
+        component: lazy(() => import('#views/Dashboard')),
         componentProps: {},
         visibility: 'is-not-authenticated',
         navbarVisibility: false,
+    }),
+    leave: wrap({
+        path: '/leave',
+        title: 'Leave',
+        component: lazy(() => import('#views/Leave')),
+        componentProps: {},
+        visibility: 'is-not-authenticated',
+        navbarVisibility: false,
+    }),
+    login: wrap({
+        path: '/',
+        title: 'Login',
+        component: lazy(() => import('../views/Login')),
+        componentProps: {},
+        visibility: 'is-authenticated',
+        navbarVisibility: true,
     }),
 };
 
@@ -56,5 +64,4 @@ export const lostRoute = {
         />
     ),
 };
-
 export default routeSettings;

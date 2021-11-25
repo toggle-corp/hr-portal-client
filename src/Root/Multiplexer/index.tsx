@@ -11,7 +11,7 @@ import { PendingMessage } from '@togglecorp/toggle-ui';
 
 import DomainContext from '#components/DomainContext';
 import { User } from '#types';
-import routeSettings, { lostRoute } from '#config/routes';
+import routeSettings from '#config/routes';
 import { useRequest } from '#utils/request';
 import Navbar from '#components/Navbar';
 

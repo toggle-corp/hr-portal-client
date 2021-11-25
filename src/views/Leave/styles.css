@@ -24,15 +24,6 @@
         }
     }
 
-    .tags {
-        border-radius: 50px;
-        background-color: #f7c324;
-        padding: var(--spacing-extra-small);
-        width: 80%;
-        min-width: max-content;
-        text-align: center;
-    }
-
     .btn-container{
         display: flex;
         align-items: center;

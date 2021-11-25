@@ -1,5 +1,4 @@
 import React, {
-    lazy,
     useCallback,
     useState,
 } from 'react';

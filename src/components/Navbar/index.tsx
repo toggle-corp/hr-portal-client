@@ -1,7 +1,4 @@
-import React, {
-    useCallback,
-    useContext,
-} from 'react';
+import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { Avatar } from '@togglecorp/toggle-ui';
 import { NavLink } from 'react-router-dom';
@@ -10,9 +7,6 @@ import {
     IoMenu,
     IoChevronDown,
 } from 'react-icons/io5';
-
-import { useLazyRequest } from '#utils/request';
-import DomainContext from '#components/DomainContext';
 
 import styles from './styles.css';
 
@@ -59,22 +53,6 @@ function Navbar(props: Props) {
         className,
         children,
     } = props;
-    const { setUser } = useContext(DomainContext);
-
-    const {
-        trigger: logout,
-    } = useLazyRequest<null, null>({
-        method: 'POST',
-        body: () => '',
-        url: '/users/logout/',
-        onSuccess: () => {
-            setUser(undefined);
-        },
-    });
-
-    const handleLogoutClick = useCallback(() => {
-        logout(null);
-    }, [logout]);
 
     return (
         <div className={_cs(className, styles.layout)}>

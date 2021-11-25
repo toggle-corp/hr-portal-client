@@ -25,7 +25,7 @@ import styles from './styles.css';
 interface Props {
     className?: string;
     modalShown?: boolean;
-    handleModalClose: any;
+    handleModalClose: () => void;
 }
 interface LeaveDataType {
     leaveType: string,

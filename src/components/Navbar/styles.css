@@ -116,7 +116,7 @@
         width: calc(100% - var(--side-nav-width));
     }
 
-    .footer {
+    .bottom {
         display: flex;
         position: absolute;
         right: 0;

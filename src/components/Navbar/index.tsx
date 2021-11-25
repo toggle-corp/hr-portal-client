@@ -126,7 +126,7 @@ function Navbar(props: Props) {
                     {children}
                 </div>
             </div>
-            <div className={styles.footer}>
+            <div className={styles.bottom}>
                 Copyright &copy; 2021 Togglecorp. All rights reserved.
             </div>
         </div>

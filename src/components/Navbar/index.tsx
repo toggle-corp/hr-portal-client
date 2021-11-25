@@ -1,8 +1,15 @@
-import React, { useCallback, useContext } from 'react';
+import React, {
+    useCallback,
+    useContext,
+} from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { Avatar } from '@togglecorp/toggle-ui';
 import { NavLink } from 'react-router-dom';
-import { IoNotifications, IoMenu, IoChevronDown } from 'react-icons/io5';
+import {
+    IoNotifications,
+    IoMenu,
+    IoChevronDown,
+} from 'react-icons/io5';
 
 import { useLazyRequest } from '#utils/request';
 import DomainContext from '#components/DomainContext';
@@ -107,7 +114,7 @@ function Navbar(props: Props) {
                             />
                         </div>
                         <div className={styles.userInfoContainer}>
-                            <p className={styles.userName}>Jhon Doe</p>
+                            <p className={styles.userName}>John Doe</p>
                             <p className={styles.userPosition}>Developer</p>
                         </div>
                         <div className={styles.iconDown}>

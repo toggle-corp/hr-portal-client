@@ -1,6 +1,21 @@
-import React, { useCallback } from 'react';
-import { Button, DateTimeInput, Modal, SelectInput, TextArea, TextInput } from '@togglecorp/toggle-ui';
-import { createSubmitHandler, ObjectSchema, PartialForm, PurgeNull, requiredStringCondition, useForm } from '@togglecorp/toggle-form';
+import React,
+{ useCallback } from 'react';
+import {
+    Button,
+    DateTimeInput,
+    Modal,
+    SelectInput,
+    TextArea,
+    TextInput,
+} from '@togglecorp/toggle-ui';
+import {
+    createSubmitHandler,
+    ObjectSchema,
+    PartialForm,
+    PurgeNull,
+    requiredStringCondition,
+    useForm,
+} from '@togglecorp/toggle-form';
 import { _cs } from '@togglecorp/fujs';
 
 import NonFieldError from '#components/NonFieldError';
@@ -72,8 +87,8 @@ const schema: FormSchema = {
     }),
 };
 const initialLoginFormFields: FormType = {};
-const keySelector = ((d: any) => d.label);
-const labelSelector = ((d: any) => d.label);
+const keySelector = ((d: Option) => d.label);
+const labelSelector = ((d: Option) => d.label);
 
 function LeaveModal(props: Props) {
     const {
@@ -97,64 +112,64 @@ function LeaveModal(props: Props) {
         }, [onValueSet],
     );
 
+    if (!modalShown) {
+        return null;
+    }
+
     return (
-        <>
-            {modalShown && (
-                <Modal
-                    className={_cs(className, styles.leaveModal)}
-                    heading={<h2>Request Leave</h2>}
-                    footer={(
-                        <Button
-                            className={styles.btnSubmit}
-                            type="submit"
-                            name={undefined}
-                            variant="primary"
-                        >
-                            Submit
-                        </Button>
-                    )}
-                    onClose={handleModalClose}
+        <Modal
+            className={_cs(className, styles.leaveModal)}
+            heading={<h2>Request Leave</h2>}
+            footer={(
+                <Button
+                    className={styles.btnSubmit}
+                    type="submit"
+                    name={undefined}
+                    variant="primary"
                 >
-                    <form
-                        onSubmit={createSubmitHandler(validate, onErrorSet, handleSubmit)}
-                    >
-                        <NonFieldError error={error?.nonFieldErrors} />
-                        <SelectInput
-                            label="Leave Type"
-                            name="leaveType"
-                            value={value.leaveType}
-                            options={options}
-                            keySelector={keySelector}
-                            labelSelector={labelSelector}
-                            onChange={onValueChange}
-                            error={error?.fields?.additionalInformation}
-                            nonClearable
-                        />
-                        <DateTimeInput
-                            label="Date"
-                            name="date"
-                            value={value.date}
-                            onChange={onValueChange}
-                            error={error?.fields?.additionalInformation}
-                        />
-                        <TextInput
-                            label="Number of Day/s"
-                            name="numberOfDay"
-                            value={value.numberOfDay}
-                            error={error?.fields?.numberOfDay}
-                            disabled
-                        />
-                        <TextArea
-                            label="Additional Information"
-                            name="additionalInformation"
-                            value={value.additionalInformation}
-                            onChange={onValueChange}
-                            error={error?.fields?.additionalInformation}
-                        />
-                    </form>
-                </Modal>
+                    Submit
+                </Button>
             )}
-        </>
+            onClose={handleModalClose}
+        >
+            <form
+                onSubmit={createSubmitHandler(validate, onErrorSet, handleSubmit)}
+            >
+                <NonFieldError error={error?.nonFieldErrors} />
+                <SelectInput
+                    label="Leave Type"
+                    name="leaveType"
+                    value={value.leaveType}
+                    options={options}
+                    keySelector={keySelector}
+                    labelSelector={labelSelector}
+                    onChange={onValueChange}
+                    error={error?.fields?.additionalInformation}
+                    nonClearable
+                />
+                <DateTimeInput
+                    label="Date"
+                    name="date"
+                    value={value.date}
+                    onChange={onValueChange}
+                    error={error?.fields?.additionalInformation}
+                />
+                <TextInput
+                    label="Number of Day/s"
+                    name="numberOfDay"
+                    value={value.numberOfDay}
+                    error={error?.fields?.numberOfDay}
+                    disabled
+                />
+                <TextArea
+                    label="Additional Information"
+                    name="additionalInformation"
+                    value={value.additionalInformation}
+                    onChange={onValueChange}
+                    error={error?.fields?.additionalInformation}
+                />
+            </form>
+        </Modal>
     );
 }
 export default LeaveModal;

@@ -1,11 +1,19 @@
-import React, { lazy, useCallback, useMemo, useState } from 'react';
+import React, {
+    useCallback,
+    useState,
+} from 'react';
 import { _cs } from '@togglecorp/fujs';
-import { Button, createDateTimeColumn, createStringColumn, Table } from '@togglecorp/toggle-ui';
+import {
+    Button,
+    createDateTimeColumn,
+    createStringColumn,
+    Table,
+} from '@togglecorp/toggle-ui';
 import { IoCalendarOutline } from 'react-icons/io5';
 
-import styles from './styles.css';
+import LeaveModal from '#components/LeaveModal';
 
-const LeaveModal = lazy(() => import('#components/LeaveModal'));
+import styles from './styles.css';
 
 interface Props {
     className?: string;
@@ -19,6 +27,7 @@ interface Program {
     remarks?: string;
     status: string;
 }
+
 const data: Program[] = [
     {
         id: 1,

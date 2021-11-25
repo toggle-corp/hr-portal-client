@@ -1,11 +1,16 @@
-import React, { Suspense, useState } from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import React, {
+    Suspense,
+    useState,
+} from 'react';
+import {
+    Route,
+    BrowserRouter,
+} from 'react-router-dom';
 import { _cs } from '@togglecorp/fujs';
 import { PendingMessage } from '@togglecorp/toggle-ui';
 
 import DomainContext from '#components/DomainContext';
 import { User } from '#types';
-
 import routeSettings, { lostRoute } from '#config/routes';
 import { useRequest } from '#utils/request';
 import Navbar from '#components/Navbar';

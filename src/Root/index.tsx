@@ -1,7 +1,10 @@
 import React, { useMemo } from 'react';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import { ApolloClient, ApolloProvider } from '@apollo/client';
+import {
+    ApolloClient,
+    ApolloProvider,
+} from '@apollo/client';
 import apolloConfig from '#config/apollo';
 import '@togglecorp/toggle-ui/build/index.css';
 

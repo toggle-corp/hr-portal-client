@@ -5,6 +5,7 @@
     table {
         background-color: #fff;
         cursor: pointer;
+        width: -webkit-fill-available;
 
         thead > tr > th {
             padding: var(--spacing-medium);

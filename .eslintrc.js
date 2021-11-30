@@ -7,39 +7,21 @@ const config = {
     ],
     env: {
         browser: true,
-        jest: true,
     },
     plugins: [
-        'postcss-modules',
+        'graphql',
         '@typescript-eslint',
+        'postcss-modules',
     ],
     settings: {
-        'postcss-modules': {
-            // postcssConfigDir: 'cwd',
-            // baseDir: 'cwd',
-            camelCase: 'camelCaseOnly',
-            // defaultScope: 'local',
-            // include: /\.css$/,
-            // exclude: /\/node_modules\//,
-        },
         'import/resolver': {
-            'babel-module': {
-                root: ['.'],
-                extensions: ['.js', '.jsx', '.ts', '.tsx'],
-                alias: {
-                    '#generated': './generated',
-                    '#components': './src/components',
-                    '#config': './src/config',
-                    '#resources': './src/resources',
-                    '#utils': './src/utils',
-                    '#views': './src/views',
-                    '#types': './src/types',
-                    '#hooks': './src/hooks',
-                },
-            },
+            'babel-module': {},
         },
         react: {
             version: 'detect',
+        },
+        'postcss-modules': {
+            camelCase: 'camelCaseOnly',
         },
     },
     parser: '@typescript-eslint/parser',
@@ -53,9 +35,6 @@ const config = {
     },
     rules: {
         strict: 1,
-        indent: ['error', 4, { SwitchCase: 1 }],
-
-        'no-console': 0,
 
         'no-unused-vars': 0,
         '@typescript-eslint/no-unused-vars': 1,
@@ -63,9 +42,15 @@ const config = {
         'no-use-before-define': 0,
         '@typescript-eslint/no-use-before-define': 1,
 
-        // note you must disable the base rule as it can report incorrect errors
         'no-shadow': 0,
         '@typescript-eslint/no-shadow': ['error'],
+
+        '@typescript-eslint/no-empty-interface': 0,
+        '@typescript-eslint/explicit-function-return-type': 0,
+        '@typescript-eslint/explicit-module-boundary-types': 0,
+
+        'no-console': 1,
+        indent: ['error', 4, { SwitchCase: 1 }],
 
         'prefer-destructuring': 'warn',
         'function-paren-newline': ['warn', 'consistent'],
@@ -78,10 +63,6 @@ const config = {
 
         'import/extensions': ['off', 'never'],
         'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
-
-        '@typescript-eslint/no-empty-interface': 0,
-        '@typescript-eslint/explicit-function-return-type': 0,
-        '@typescript-eslint/explicit-module-boundary-types': 0,
 
         'jsx-a11y/anchor-is-valid': ['error', {
             components: ['Link'],
@@ -111,12 +92,21 @@ const config = {
             allowRequiredDefaults: true,
         }],
 
-        'postcss-modules/no-unused-class': 'warn',
-        'postcss-modules/no-undef-class': 'warn',
-
         'react-hooks/rules-of-hooks': 'error',
         'react-hooks/exhaustive-deps': 'warn',
+
+        'postcss-modules/no-unused-class': 'warn',
+        'postcss-modules/no-undef-class': 'warn',
     },
 };
+try {
+    const introspectionSchema = require('./generated/schema.json');
+    config.rules['graphql/template-strings'] = ['error', {
+        env: 'apollo',
+        schemaJson: introspectionSchema,
+    }];
+} catch (e) {
+    // do nothing here
+}
 
 module.exports = config;

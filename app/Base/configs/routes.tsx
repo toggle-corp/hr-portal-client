@@ -17,10 +17,8 @@ const login = wrap({
     path: '/login/',
     title: 'Login',
     navbarVisibility: false,
-    component: lazy(() => import('#views/Template')),
-    componentProps: {
-        name: 'Login Page',
-    },
+    component: lazy(() => import('#views/Template/Login')),
+    componentProps: {},
     visibility: 'is-not-authenticated',
 });
 const dashboard = wrap({

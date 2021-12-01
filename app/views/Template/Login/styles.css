@@ -1,0 +1,34 @@
+:root {
+    --width-sign-in-form: 360px;
+}
+
+.sign-in {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow-y: auto;
+
+    .sign-in-form-container {
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        width: var(--width-sign-in-form);
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .forgot-password-link {
+                font-size: var(--dui-font-size-extra-small);
+            }
+        }
+    }
+}

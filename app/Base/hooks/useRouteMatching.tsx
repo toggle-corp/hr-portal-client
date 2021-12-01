@@ -42,9 +42,9 @@ function useRouteMatching(route: RouteData, attrs?: Attrs) {
 
     if (
         visibility === 'is-authenticated'
-            && authenticated
-            && checkPermissions
-            && !checkPermissions(project, skipProjectPermissionCheck)
+        && authenticated
+        && checkPermissions
+        && !checkPermissions(project, skipProjectPermissionCheck)
     ) {
         return undefined;
     }

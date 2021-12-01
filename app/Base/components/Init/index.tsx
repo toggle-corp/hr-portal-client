@@ -1,13 +1,26 @@
-import React, { useContext, useState, useMemo, useEffect } from 'react';
+import React, { useContext, useState, useMemo } from 'react';
+import { gql, useQuery } from '@apollo/client';
+import { removeNull } from '@togglecorp/toggle-form';
 
 import { UserContext } from '#base/context/UserContext';
 import PreloadMessage from '#base/components/PreloadMessage';
-
+import { Project } from '#base/types/project';
+import { MeQuery } from '#generated/types';
 import {
     ProjectContext,
     ProjectContextInterface,
 } from '#base/context/ProjectContext';
-import { Project } from '#base/types/project';
+
+const ME = gql`
+    query Me {
+        me {
+            id
+            firstName
+            isActive
+            lastName
+        }
+    }
+`;
 
 interface Props {
     className?: string;
@@ -18,15 +31,13 @@ function Init(props: Props) {
         className,
         children,
     } = props;
+    const {
+        setUser,
+    } = useContext(UserContext);
 
     const [ready, setReady] = useState(false);
     const [errored, setErrored] = useState(false);
     const [project, setProject] = useState<Project | undefined>(undefined);
-
-    const {
-        setUser,
-    } = useContext(UserContext);
-    /*
 
     useQuery<MeQuery>(ME, {
         fetchPolicy: 'network-only',
@@ -34,35 +45,18 @@ function Init(props: Props) {
             const safeMe = removeNull(data.me);
             if (safeMe) {
                 setUser(safeMe);
-                setProject(safeMe.lastActiveProject ?? undefined);
+                // setProject(safeMe.lastActiveProject ?? undefined);
             } else {
                 setUser(undefined);
                 setProject(undefined);
             }
             setReady(true);
         },
-        onError: (error) => {
-            const { graphQLErrors } = error;
-            const authError = checkErrorCode(
-                graphQLErrors,
-                ['me'],
-                '401',
-            );
-
-            setErrored(!authError);
-            setReady(true);
-        },
-    });
-    */
-    useEffect(
-        () => {
-            setUser({ id: '1', displayName: 'Ram' });
-            setProject({ id: '1', title: 'Ramayan', allowedPermissions: [] });
+        onError: () => {
             setErrored(false);
             setReady(true);
         },
-        [setUser],
-    );
+    });
 
     const projectContext: ProjectContextInterface = useMemo(
         () => ({
@@ -96,4 +90,5 @@ function Init(props: Props) {
         </ProjectContext.Provider>
     );
 }
+
 export default Init;

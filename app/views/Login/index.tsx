@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useContext } from 'react';
 import {
     PartialForm,
     PurgeNull,
@@ -7,15 +7,42 @@ import {
     createSubmitHandler,
     internal,
     getErrorObject,
+    removeNull,
+    requiredStringCondition,
+    lengthGreaterThanCondition,
 } from '@togglecorp/toggle-form';
+import {
+    Button,
+    PasswordInput,
+    TextInput,
+} from '@the-deep/deep-ui';
+import {
+    gql,
+    useMutation,
+} from '@apollo/client';
 
-import { Button, PasswordInput, TextInput } from '@the-deep/deep-ui';
+import {
+    LoginInputType,
+    LoginMutation,
+    LoginMutationVariables,
+} from '#generated/types';
+import UserContext from '#base/context/UserContext';
+
 import styles from './styles.css';
 
-interface LoginInputType {
-    username?: string;
-    password?: string;
-}
+const LOGIN = gql`
+    mutation Login($input: LoginInputType!) {
+        login(data: $input) {
+        result {
+            id
+            firstName
+            lastName
+        }
+        ok
+        errors
+        }
+    }
+`;
 
 type LoginFormFields = LoginInputType;
 type FormType = PurgeNull<PartialForm<LoginFormFields>>;
@@ -24,13 +51,14 @@ type FormSchemaFields = ReturnType<FormSchema['fields']>;
 
 const schema: FormSchema = {
     fields: (): FormSchemaFields => ({
-        username: [],
-        password: [],
+        username: [requiredStringCondition],
+        password: [requiredStringCondition, lengthGreaterThanCondition(5)],
     }),
 };
 const defaultFormValues: PartialForm<FormType> = {};
 
 function Login() {
+    const { setUser } = useContext(UserContext);
     const {
         pristine,
         value,
@@ -39,20 +67,46 @@ function Login() {
         validate,
         setError,
     } = useForm(schema, defaultFormValues);
-    /*
-        const handleSubmit = useCallback(
-            (finalValues: PartialForm<FormType>) => {
-                setValue(finalValues);
-            }, [setValue],
-        );
-    */
+
+    const [
+        login,
+    ] = useMutation<LoginMutation, LoginMutationVariables>(
+        LOGIN,
+        {
+            onCompleted: (response) => {
+                const { login: loginRes } = response;
+                if (!loginRes) {
+                    return;
+                }
+                const {
+                    errors,
+                    result,
+                    ok,
+                } = loginRes;
+
+                if (errors) {
+                    setError(errors[0].messages);
+                } else if (ok) {
+                    // NOTE: there can be case where errors is empty but it still errored
+                    // FIXME: highestRole is sent as string from the server
+                    setUser(removeNull(result));
+                }
+            },
+            onError: () => {
+                setError(undefined);
+            },
+        },
+    );
+
     const error = getErrorObject(riskyError);
-    const handleSubmit = (finalValue: FormType) => {
+    const handleSubmit = useCallback((finalValue: FormType) => {
         const completeValue = finalValue as LoginFormFields;
-        /*
-        login(completeValue);
-        */
-    };
+        login({
+            variables: {
+                input: completeValue,
+            },
+        });
+    }, [login]);
 
     return (
         <div className={styles.signIn}>
@@ -60,7 +114,7 @@ function Login() {
                 <form
                     onSubmit={createSubmitHandler(validate, setError, handleSubmit)}
                 >
-                    <p>
+                    <p className={styles.inActive}>
                         {error?.[internal]}
                     </p>
                     <TextInput

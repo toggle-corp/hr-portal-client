@@ -30,5 +30,10 @@
                 font-size: var(--dui-font-size-extra-small);
             }
         }
+
+        .inActive {
+            color: var(--dui-color-negative);
+            font-size: var(--dui-font-size-large);
+        }
     }
 }

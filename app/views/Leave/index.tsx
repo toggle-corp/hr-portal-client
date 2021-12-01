@@ -5,158 +5,107 @@ import {
     Table,
 } from '@the-deep/deep-ui';
 import { _cs } from '@togglecorp/fujs';
+import { gql, useQuery } from '@apollo/client';
 import { IoCalendarOutline } from 'react-icons/io5';
 
 import LeaveModal from '#components/LeaveModal';
+import { LeaveListQuery } from '#generated/types';
 
 import styles from './styles.css';
+
+const GET_LEAVE_LIST = gql`
+    query LeaveList {
+        leaves {
+            results {
+                additionalInformation
+                endDate
+                id
+                numOfDays
+                requestDayType
+                startDate
+                status
+                typeDisplay
+                deniedReason
+            }
+        }
+    }
+`;
 
 interface Props {
     className?: string;
 }
 interface Program {
-    id: number;
-    requestType: string;
-    duration: string;
-    dated: string;
-    leaveType: string;
-    remarks?: string;
+    id: string;
+    requestDayType: string;
+    startDate: string;
+    endDate: string;
+    typeDisplay: string;
+    numOfDays: string;
     status: string;
+    deniedReason?: string;
 }
-
-const data: Program[] = [
-    {
-        id: 1,
-        requestType: 'Multiple Days',
-        dated: '2012-10-12',
-        duration: '5 Day',
-        leaveType: 'Sick and Casual Leave',
-        remarks: '',
-        status: 'Pending',
-    },
-    {
-        id: 2,
-        requestType: 'One Day',
-        dated: '2012-10-12',
-        duration: '1 Day',
-        leaveType: 'Sick and Casual Leave',
-        remarks: '',
-        status: 'Pending',
-    },
-    {
-        id: 3,
-        requestType: 'One Day',
-        dated: '2012-10-12',
-        duration: '1 Day',
-        leaveType: 'Sick and Casual Leave',
-        remarks: '',
-        status: 'Pending',
-    },
-    {
-        id: 4,
-        requestType: 'One Day',
-        dated: '2012-10-12',
-        duration: '1 Day',
-        leaveType: 'Sick and Casual Leave',
-        remarks: '',
-        status: 'Pending',
-    },
-    {
-        id: 5,
-        requestType: 'One Day',
-        dated: '2012-10-12',
-        duration: '1 Day',
-        leaveType: 'Sick and Casual Leave',
-        remarks: '',
-        status: 'Pending',
-    },
-    {
-        id: 6,
-        requestType: 'One Day',
-        dated: '2012-10-12',
-        duration: '1 Day',
-        leaveType: 'Sick and Casual Leave',
-        remarks: '',
-        status: 'Approved',
-    },
-    {
-        id: 7,
-        requestType: 'One Day',
-        dated: '2012-10-28 to 2012-11-01',
-        duration: '1 Day',
-        leaveType: 'Sick and Casual Leave',
-        remarks: '',
-        status: 'Approved',
-    },
-    {
-        id: 8,
-        requestType: 'One Day',
-        dated: '2012-10-12 to 2012-11-15',
-        duration: '1 Day',
-        leaveType: 'Sick and Casual Leave',
-        remarks: '',
-        status: 'Approved',
-    },
-];
 
 const tableKeySelector = ((p: Program) => (p.id));
 
 function Leave(props: Props) {
     const { className } = props;
     const [showModal, setShowModal] = useState(false);
+    const {
+        data: result,
+    } = useQuery<LeaveListQuery>(GET_LEAVE_LIST, {});
 
     const columns = [
-        createStringColumn<Program, number>(
-            'requestType',
+        createStringColumn<Program, string>(
+            'requestDayType',
             'Request Type',
-            (item) => item.requestType,
+            (item) => item.requestDayType,
             {
                 sortable: true,
                 orderable: true,
                 columnWidth: 220,
             },
         ),
-        createStringColumn<Program, number>(
-            'dated',
+        createStringColumn<Program, string>(
+            'startDate',
             'Dated',
-            (item) => item.dated,
+            (item) => `${item.startDate} to ${item.endDate}`,
             {
                 sortable: true,
                 orderable: true,
                 columnWidth: 400,
             },
         ),
-        createStringColumn<Program, number>(
+        createStringColumn<Program, string>(
             'duration',
             'Duration',
-            (item) => item.duration,
+            (item) => item.numOfDays,
             {
                 sortable: true,
                 orderable: true,
                 columnWidth: 200,
             },
         ),
-        createStringColumn<Program, number>(
-            'leaveType',
+        createStringColumn<Program, string>(
+            'typeDisplay',
             'Leave Type',
-            (item) => item.leaveType,
+            (item) => item.typeDisplay,
             {
                 sortable: true,
                 orderable: true,
                 columnWidth: 260,
             },
         ),
-        createStringColumn<Program, number>(
-            'remarks',
+        createStringColumn<Program, string>(
+            'deniedReason',
             'Remarks',
-            (item) => item.remarks,
+            (item) => item.deniedReason,
             {
                 sortable: true,
                 orderable: true,
                 columnWidth: 200,
             },
         ),
-        createStringColumn<Program, number>(
+        createStringColumn<Program, string>(
             'status',
             'Status',
             (item) => item.status,
@@ -186,7 +135,7 @@ function Leave(props: Props) {
                 <Table
                     keySelector={tableKeySelector}
                     columns={columns}
-                    data={data}
+                    data={result?.leaves?.results}
                 />
             </div>
             <LeaveModal

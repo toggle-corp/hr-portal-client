@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import {
     QuickActionLink,
@@ -11,11 +11,24 @@ import {
     IoLogOutOutline,
     IoMenuSharp,
 } from 'react-icons/io5';
+import {
+    gql,
+    useMutation,
+} from '@apollo/client';
 
 import { UserContext } from '#base/context/UserContext';
+import { LogoutMutation } from '#generated/types';
 import route from '#base/configs/routes';
 
 import styles from './styles.css';
+
+const LOGOUT = gql`
+    mutation logout {
+        logout {
+            ok
+        }
+    }
+`;
 
 interface Props {
     className?: string;
@@ -30,7 +43,6 @@ function Navbar(props: Props) {
         setUser,
     } = useContext(UserContext);
 
-    /*
     const [logout] = useMutation<LogoutMutation>(
         LOGOUT,
         {
@@ -43,14 +55,6 @@ function Navbar(props: Props) {
             // FIXME: handle failure
         },
     );
-    */
-    const logout = useCallback(
-        () => {
-            setUser(undefined);
-        },
-        [setUser],
-    );
-
     const [
         modal,
         onLogoutClick,
@@ -76,7 +80,7 @@ function Navbar(props: Props) {
             </div>
             {authenticated && user && (
                 <DropdownMenu
-                    label={user.displayName ?? 'Anon'}
+                    label={`${user.firstName} ${user.lastName}`}
                     className={styles.userDisplay}
                     variant="transparent"
                 >

@@ -2,7 +2,7 @@
     --color-border:#ebe5e5;
 
     border-right: 1px solid var(--color-border);
-    background-color: #fff;
+    background-color: var(--dui-color-white);
     width: 200px;
     height: 100vh;
 

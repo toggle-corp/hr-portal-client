@@ -25,7 +25,7 @@ const dashboard = wrap({
     path: '/',
     title: 'Dashboard',
     navbarVisibility: true,
-    component: lazy(() => import('#components/Dashboard')),
+    component: lazy(() => import('#views/Template/Dashboard')),
     componentProps: {},
     visibility: 'is-authenticated',
 });
@@ -33,7 +33,7 @@ const myLeave = wrap({
     path: '/my-leave/',
     title: 'My Leave',
     navbarVisibility: true,
-    component: lazy(() => import('#components/Leave')),
+    component: lazy(() => import('#views/Template/Leave')),
     componentProps: {},
     visibility: 'is-authenticated',
 });

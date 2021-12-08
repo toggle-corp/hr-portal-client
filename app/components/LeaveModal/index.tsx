@@ -1,8 +1,9 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
     Button,
     DateRangeInput,
     Modal,
+    RadioInput,
     SelectInput,
     TextArea,
     TextInput,
@@ -16,24 +17,53 @@ import {
     useForm,
 } from '@togglecorp/toggle-form';
 import { _cs } from '@togglecorp/fujs';
+import { gql, useQuery } from '@apollo/client';
+
+import { DayLeaveTypeQuery, LeaveTypeQuery } from '#generated/types';
 
 import styles from './styles.css';
 
+const GET_LEAVE_TYPE = gql`
+    query leaveType{
+        leaveTypeChoices: __type(name: "LeaveTypeEnum") {
+            name
+            enumValues {
+            name
+            description
+            }
+        }
+    }
+`;
+const GET_LEAVE_DAY_TYPE = gql`
+    query dayLeaveType{
+        leaveDayTypeChoices: __type(name: "LeaveDayTypeEnum") {
+            name
+            enumValues {
+            name
+            description
+            }
+        }
+    }
+`;
+
+interface Option {
+    name?: string,
+    description?: string,
+}
 interface Props {
     className?: string;
     modalShown?: boolean;
     handleModalClose: () => void;
 }
-interface Option {
-    key: string;
-    label: string;
-    parentKey: string,
-    parentLabel: string,
+interface ArrayProps {
+    type?: string,
+    date?: string,
+
 }
 type FormType = {
-    leaveType: string;
-    numberOfDay: string;
-    date: null | undefined;
+    type: string;
+    numOfDay: string;
+    leaveDays: ArrayProps,
     additionalInformation: string;
 };
 type FormSchema = ObjectSchema<PartialForm<FormType>>
@@ -41,54 +71,34 @@ type FormSchemaFields = ReturnType<FormSchema['fields']>;
 
 const schema: FormSchema = {
     fields: (): FormSchemaFields => ({
-        leaveType: [],
-        numberOfDay: [],
-        date: [],
+        type: [],
+        numOfDay: [],
+        leaveDays: [],
         additionalInformation: [],
     }),
 };
 
 const defaultFormValues: PartialForm<FormType> = {
-    leaveType: '1',
+    type: 'SICK',
+    leaveDays: {
+        type: '',
+        date: '',
+    },
 };
 
-const labelSelector = ((d: Option) => d.label);
-const keySelector = ((d: Option) => d.key);
-
-const options: Option[] = [
-    {
-        key: '1',
-        label: 'Sick and Casual Leave',
-        parentKey: '1',
-        parentLabel: '',
-    },
-    {
-        key: '2',
-        label: 'Replacement Leave',
-        parentKey: '2',
-        parentLabel: '',
-    },
-    {
-        key: '3',
-        label: 'Maternity Leave',
-        parentKey: '3',
-        parentLabel: '',
-    },
-    {
-        key: '4',
-        label: 'Paternity Leave',
-        parentKey: '4',
-        parentLabel: '',
-    },
-    {
-        key: '5',
-        label: 'Bereavement Leave',
-        parentKey: '5',
-        parentLabel: '',
-    },
-];
+const labelSelector = ((d: Option) => d.description);
+const keySelector = ((d: Option) => d.name);
 
 function LeaveModal(props: Props) {
+    const [dateRange, setDateRange] = useState<null>();
+    const [dateLists, setDateLists] = useState<string[]>();
+    const {
+        data: result,
+    } = useQuery<LeaveTypeQuery>(GET_LEAVE_TYPE, {});
+    const {
+        data: dayLeaveOptions,
+    } = useQuery<DayLeaveTypeQuery>(GET_LEAVE_DAY_TYPE, {});
+
     const {
         className,
         modalShown,
@@ -111,12 +121,58 @@ function LeaveModal(props: Props) {
         }, [setValue],
     );
 
+    let leaveDays: ArrayProps[] = [];
+    const handleRadio = useCallback(
+        (e: string, el: string) => {
+            const obj: { type: string | undefined, date: string | undefined } = {
+                type: undefined,
+                date: undefined,
+            };
+            const hasDate: boolean = leaveDays.some((x) => x?.date === el);
+            if (!hasDate) {
+                obj.date = el;
+                obj.type = e;
+                leaveDays.push(obj);
+                setValue({ ...value, leaveDays });
+            } else {
+                const updatedData = leaveDays.map(
+                    (x: ArrayProps) => (x.date === el ? { ...x, type: e } : x),
+                );
+                leaveDays = [...new Set(updatedData.map(JSON.stringify))].map(JSON.parse);
+                setValue({ ...value, leaveDays });
+            }
+        },
+        [setValue],
+    );
+    const getDaysArray = useCallback(
+        (start: Date, end: Date) => {
+            const arr = [];
+            for (let dt = new Date(start); dt <= end; dt.setDate(dt.getDate() + 1)) {
+                if (new Date(dt).getDay() !== 0 && new Date(dt).getDay() !== 6) {
+                    arr.push(new Date(dt));
+                }
+            }
+            return arr;
+        },
+        [],
+    );
+    const handleDateChange = useCallback(
+        (e) => {
+            setDateRange(e);
+            const dayList = getDaysArray(new Date(e.startDate), new Date(e.endDate));
+            const formattedDate = dayList.map((v: Date) => v.toISOString().split('T')[0]);
+            setDateLists(formattedDate);
+        },
+        [getDaysArray],
+    );
+
     const error = getErrorObject(riskyError);
 
     if (!modalShown) {
         return null;
     }
 
+    console.log({ value });
     return (
         <Modal
             className={_cs(className, styles.leaveModal)}
@@ -142,27 +198,50 @@ function LeaveModal(props: Props) {
                 </p>
                 <SelectInput
                     label="Leave Type"
-                    name="leaveType"
-                    value={value.leaveType}
-                    options={options}
+                    name="type"
+                    value={value.type}
+                    options={result
+                        && result?.leaveTypeChoices?.enumValues}
                     labelSelector={labelSelector}
                     keySelector={keySelector}
                     onChange={setFieldValue}
-                    error={error?.leaveType}
+                    error={error?.type}
                 />
+                <DateRangeInput
+                    variant="form"
+                    label="Date"
+                    name="dateRange"
+                    value={dateRange}
+                    error={error?.dateRange}
+                    onChange={handleDateChange}
+                />
+                {dateLists && dateLists.map((el, i) => (
+                    <div style={{ display: 'flex', alignItems: 'center' }} key={el}>
+                        <div>{el}</div>
+                        <div style={{ fontSize: '0.8rem' }}>
+                            <RadioInput
+                                label=""
+                                name="leaveDays"
+                                value={value?.leaveDays[i]?.date === el
+                                    ? value?.leaveDays[i]?.type : value?.leaveDays?.type}
+                                error={error?.leaveDays?.type}
+                                onChange={(e) => handleRadio(e, el)}
+                                keySelector={keySelector}
+                                labelSelector={labelSelector}
+                                options={dayLeaveOptions
+                                    && dayLeaveOptions?.leaveDayTypeChoices?.enumValues}
+                            />
+                        </div>
+                    </div>
+                ))}
+
                 <TextInput
                     disabled
                     label="Number of Day/s"
-                    name="numberOfDay"
-                    value={value.numberOfDay}
+                    name="numOfDay"
+                    value={value.numOfDay}
                     onChange={setFieldValue}
-                    error={error?.numberOfDay}
-                />
-                <DateRangeInput
-                    label="Date"
-                    name="date"
-                    value={value.date}
-                    error={error?.date}
+                    error={error?.numOfDay}
                 />
                 <TextArea
                     label="Additional Information"

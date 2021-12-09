@@ -14,12 +14,20 @@ import {
     internal,
     ObjectSchema,
     PartialForm,
+    removeNull,
     useForm,
 } from '@togglecorp/toggle-form';
 import { _cs } from '@togglecorp/fujs';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 
-import { DayLeaveTypeQuery, LeaveTypeQuery } from '#generated/types';
+import {
+    DayLeaveTypeQuery,
+    LeaveTypeQuery,
+    LeaveApplyInputType,
+    LeaveApplyMutation,
+    LeaveApplyMutationVariables,
+    LeaveDayInputType,
+} from '#generated/types';
 
 import styles from './styles.css';
 
@@ -45,9 +53,17 @@ const GET_LEAVE_DAY_TYPE = gql`
         }
     }
 `;
+const SUBMIT = gql`
+    mutation LeaveApply($input: LeaveApplyInputType!) {
+        leaveApply(data: $input) {
+            ok
+            errors
+        }
+    }
+`;
 
 interface Option {
-    name?: string,
+    name: string,
     description?: string,
 }
 interface Props {
@@ -58,32 +74,23 @@ interface Props {
 interface ArrayProps {
     type?: string,
     date?: string,
-
 }
-type FormType = {
-    type: string;
-    numOfDay: string;
-    leaveDays: ArrayProps,
-    additionalInformation: string;
-};
+type FormType = LeaveApplyInputType;
 type FormSchema = ObjectSchema<PartialForm<FormType>>
 type FormSchemaFields = ReturnType<FormSchema['fields']>;
 
 const schema: FormSchema = {
     fields: (): FormSchemaFields => ({
         type: [],
-        numOfDay: [],
+        numOfDays: [],
         leaveDays: [],
         additionalInformation: [],
     }),
 };
 
-const defaultFormValues: PartialForm<FormType> = {
+const defaultFormValues: PartialForm<LeaveApplyInputType> = {
     type: 'SICK',
-    leaveDays: {
-        type: '',
-        date: '',
-    },
+    leaveDays: [],
 };
 
 const labelSelector = ((d: Option) => d.description);
@@ -115,35 +122,72 @@ function LeaveModal(props: Props) {
         setValue,
     } = useForm(schema, defaultFormValues);
 
-    const handleSubmit = useCallback(
-        (finalValues: PartialForm<FormType>) => {
-            setValue(finalValues);
-        }, [setValue],
+    const [
+        submit,
+    ] = useMutation<LeaveApplyMutation, LeaveApplyMutationVariables>(
+        SUBMIT,
+        {
+            onCompleted: (response) => {
+                const { login: loginRes } = response;
+                if (!loginRes) {
+                    return;
+                }
+                const {
+                    errors,
+                    ok,
+                } = loginRes;
+
+                if (errors) {
+                    setError(errors[0].messages);
+                } else if (ok) {
+                    // NOTE: there can be case where errors is empty but it still errored
+                    // FIXME: highestRole is sent as string from the server
+                    // setUser(removeNull(result));
+                }
+            },
+            onError: () => {
+                setError(undefined);
+            },
+        },
     );
 
-    let leaveDays: ArrayProps[] = [];
+    const handleSubmit = useCallback(
+        (finalValues: FormType) => {
+            const completeValue = finalValues as FormType;
+            console.log({ completeValue });
+            submit({
+                variables: {
+                    input: completeValue,
+                },
+            });
+        }, [submit],
+    );
+
+    const selectedDays: Array<LeaveDayInputType> = value?.leaveDays;
     const handleRadio = useCallback(
-        (e: string, el: string) => {
-            const obj: { type: string | undefined, date: string | undefined } = {
+        async (e: string | number, el: string) => {
+            const obj: { type: string | number | undefined, date: string | undefined } = {
                 type: undefined,
                 date: undefined,
             };
-            const hasDate: boolean = leaveDays.some((x) => x?.date === el);
-            if (!hasDate) {
+            const hasDate = value && value?.leaveDays.some((x) => x?.date === el);
+            if (hasDate) {
+                const updatedData = selectedDays.map(
+                    (x: LeaveDayInputType) => (x.date === el ? { ...x, type: e } : x),
+                );
+                const diffData = [...new Set(
+                    updatedData.map(JSON.stringify))].map(JSON.parse);
+                setValue({ ...value, leaveDays: diffData });
+            } else {
                 obj.date = el;
                 obj.type = e;
-                leaveDays.push(obj);
-                setValue({ ...value, leaveDays });
-            } else {
-                const updatedData = leaveDays.map(
-                    (x: ArrayProps) => (x.date === el ? { ...x, type: e } : x),
-                );
-                leaveDays = [...new Set(updatedData.map(JSON.stringify))].map(JSON.parse);
-                setValue({ ...value, leaveDays });
+                selectedDays.push(obj);
+                setValue({ ...value, leaveDays: selectedDays });
             }
         },
-        [setValue],
+        [setValue, dateLists, selectedDays],
     );
+
     const getDaysArray = useCallback(
         (start: Date, end: Date) => {
             const arr = [];
@@ -156,11 +200,26 @@ function LeaveModal(props: Props) {
         },
         [],
     );
+
+    const convertArrayToObject = (data: string[]) => {
+        const arrayObject: Array<LeaveDayInputType> = [];
+        data.map((item) => {
+            const obj: LeaveDayInputType = {
+                date: item,
+                type: 'FULL',
+
+            };
+            return arrayObject.push(obj);
+        });
+        setValue({ ...value, leaveDays: arrayObject });
+    };
+
     const handleDateChange = useCallback(
-        (e) => {
+        async (e) => {
             setDateRange(e);
-            const dayList = getDaysArray(new Date(e.startDate), new Date(e.endDate));
-            const formattedDate = dayList.map((v: Date) => v.toISOString().split('T')[0]);
+            const dayList = await getDaysArray(new Date(e.startDate), new Date(e.endDate));
+            const formattedDate = await dayList.map((v: Date) => v.toISOString().split('T')[0]);
+            // convertArrayToObject(formattedDate);
             setDateLists(formattedDate);
         },
         [getDaysArray],
@@ -172,7 +231,6 @@ function LeaveModal(props: Props) {
         return null;
     }
 
-    console.log({ value });
     return (
         <Modal
             className={_cs(className, styles.leaveModal)}
@@ -212,36 +270,29 @@ function LeaveModal(props: Props) {
                     label="Date"
                     name="dateRange"
                     value={dateRange}
-                    error={error?.dateRange}
+                    // error={error?.dateRange}
                     onChange={handleDateChange}
                 />
-                {dateLists && dateLists.map((el, i) => (
-                    <div style={{ display: 'flex', alignItems: 'center' }} key={el}>
-                        <div>{el}</div>
-                        <div style={{ fontSize: '0.8rem' }}>
-                            <RadioInput
-                                label=""
-                                name="leaveDays"
-                                value={value?.leaveDays[i]?.date === el
-                                    ? value?.leaveDays[i]?.type : value?.leaveDays?.type}
-                                error={error?.leaveDays?.type}
-                                onChange={(e) => handleRadio(e, el)}
-                                keySelector={keySelector}
-                                labelSelector={labelSelector}
-                                options={dayLeaveOptions
-                                    && dayLeaveOptions?.leaveDayTypeChoices?.enumValues}
-                            />
-                        </div>
-                    </div>
+                {dateLists && dateLists.map((el) => (
+                    <RadioInput
+                        key={el}
+                        label={el}
+                        name={el}
+                        value={value?.leaveDays?.find((item) => item.date === el)?.type}
+                        onChange={handleRadio}
+                        keySelector={keySelector}
+                        labelSelector={labelSelector}
+                        options={dayLeaveOptions?.leaveDayTypeChoices?.enumValues ?? undefined}
+                    />
                 ))}
 
                 <TextInput
                     disabled
                     label="Number of Day/s"
-                    name="numOfDay"
-                    value={value.numOfDay}
+                    name="numOfDays"
+                    value={value.numOfDays}
                     onChange={setFieldValue}
-                    error={error?.numOfDay}
+                    error={error?.numOfDays}
                 />
                 <TextArea
                     label="Additional Information"

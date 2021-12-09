@@ -13,7 +13,7 @@ import { LeaveListQuery } from '#generated/types';
 
 import styles from './styles.css';
 
-const GET_LEAVE_LIST = gql`
+export const GET_LEAVE_LIST = gql`
     query LeaveList {
         leaves {
             results {

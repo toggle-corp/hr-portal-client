@@ -2,14 +2,15 @@ import React, { useCallback, useState } from 'react';
 import {
     Button,
     createStringColumn,
-    Table,
+    TableView,
 } from '@the-deep/deep-ui';
 import { _cs } from '@togglecorp/fujs';
 import { gql, useQuery } from '@apollo/client';
 import { IoCalendarOutline } from 'react-icons/io5';
 
 import LeaveModal from '#components/LeaveModal';
-import { LeaveListQuery } from '#generated/types';
+import { LeaveListQuery, LeaveType } from '#generated/types';
+import { EnumFix } from '#base/types/enumFix';
 
 import styles from './styles.css';
 
@@ -34,18 +35,9 @@ export const GET_LEAVE_LIST = gql`
 interface Props {
     className?: string;
 }
-interface Program {
-    id: string;
-    requestDayType: string;
-    startDate: string;
-    endDate: string;
-    typeDisplay: string;
-    numOfDays: string;
-    status: string;
-    deniedReason?: string;
-}
 
-const tableKeySelector = ((p: Program) => (p.id));
+type Program = NonNullable<EnumFix<LeaveType, 'type' | 'status'>>;
+const tableKeySelector = ((p: Program) => (p?.id));
 
 function Leave(props: Props) {
     const { className } = props;
@@ -56,63 +48,68 @@ function Leave(props: Props) {
 
     const columns = [
         createStringColumn<Program, string>(
-            'requestDayType',
-            'Request Type',
-            (item) => item.requestDayType,
+            'sn',
+            'S.No.',
+            (item) => item.id,
             {
                 sortable: true,
                 orderable: true,
-                columnWidth: 220,
+            },
+        ),
+        createStringColumn<Program, string>(
+            'requestDayType',
+            'Request Type',
+            (item) => item?.requestDayType,
+            {
+                sortable: true,
+                orderable: true,
             },
         ),
         createStringColumn<Program, string>(
             'startDate',
             'Dated',
-            (item) => `${item.startDate} to ${item.endDate}`,
+            (item) => `${item?.startDate} to ${item?.endDate}`,
             {
                 sortable: true,
                 orderable: true,
-                columnWidth: 400,
+                columnWidth: 250,
             },
         ),
         createStringColumn<Program, string>(
             'duration',
             'Duration',
-            (item) => item.numOfDays,
+            (item) => (item?.numOfDays).toString(),
             {
                 sortable: true,
                 orderable: true,
-                columnWidth: 200,
             },
         ),
         createStringColumn<Program, string>(
             'typeDisplay',
             'Leave Type',
-            (item) => item.typeDisplay,
+            (item) => item?.typeDisplay,
             {
                 sortable: true,
                 orderable: true,
-                columnWidth: 260,
+                columnWidth: 250,
             },
         ),
         createStringColumn<Program, string>(
             'deniedReason',
             'Remarks',
-            (item) => item.deniedReason,
+            (item) => item?.deniedReason,
             {
                 sortable: true,
                 orderable: true,
-                columnWidth: 200,
             },
         ),
         createStringColumn<Program, string>(
             'status',
             'Status',
-            (item) => item.status,
+            (item) => item?.status,
             {
                 sortable: true,
                 orderable: true,
-                columnWidth: 200,
             },
         ),
     ];
@@ -132,7 +129,7 @@ function Leave(props: Props) {
                 </Button>
             </div>
             <div>
-                <Table
+                <TableView
                     keySelector={tableKeySelector}
                     columns={columns}
                     data={result?.leaves?.results}

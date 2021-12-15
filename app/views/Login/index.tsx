@@ -27,6 +27,10 @@ import {
     LoginMutationVariables,
 } from '#generated/types';
 import UserContext from '#base/context/UserContext';
+import {
+    ObjectError,
+    transformToFormError,
+} from '#base/utils/errorTransform';
 
 import styles from './styles.css';
 
@@ -85,20 +89,23 @@ function Login() {
                 } = loginRes;
 
                 if (errors) {
-                    setError(errors[0].messages);
+                    const formError = transformToFormError(removeNull(errors) as ObjectError[]);
+                    setError({
+                        ...formError,
+                        [internal]: formError?.login as unknown as string,
+                    });
                 } else if (ok) {
                     // NOTE: there can be case where errors is empty but it still errored
                     // FIXME: highestRole is sent as string from the server
                     setUser(removeNull(result));
                 }
             },
-            onError: () => {
-                setError(undefined);
+            onError: (errors) => {
+                setError(errors?.message);
             },
         },
     );
 
-    const error = getErrorObject(riskyError);
     const handleSubmit = useCallback((finalValue: FormType) => {
         const completeValue = finalValue as LoginFormFields;
         login({
@@ -108,15 +115,14 @@ function Login() {
         });
     }, [login]);
 
+    const error = getErrorObject(riskyError);
+
     return (
         <div className={styles.signIn}>
             <div className={styles.signInFormContainer}>
                 <form
                     onSubmit={createSubmitHandler(validate, setError, handleSubmit)}
                 >
-                    <p className={styles.inActive}>
-                        {error?.[internal]}
-                    </p>
                     <TextInput
                         label="Username"
                         name="username"

@@ -18,6 +18,8 @@ const ME = gql`
             firstName
             isActive
             lastName
+            remainingLeave
+            totalLeavesDays
         }
     }
 `;

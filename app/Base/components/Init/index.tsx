@@ -2,7 +2,7 @@ import React, { useContext, useState, useMemo } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { removeNull } from '@togglecorp/toggle-form';
 
-import { UserContext } from '#base/context/UserContext';
+import { UserContext, UserContextInterface } from '#base/context/UserContext';
 import PreloadMessage from '#base/components/PreloadMessage';
 import { Project } from '#base/types/project';
 import { MeQuery } from '#generated/types';
@@ -33,6 +33,7 @@ function Init(props: Props) {
     } = props;
 
     const {
+        user,
         setUser,
     } = useContext(UserContext);
 
@@ -76,7 +77,7 @@ function Init(props: Props) {
             />
         );
     }
-    if (!ready) {
+    if (!ready && !user) {
         return (
             <PreloadMessage
                 className={className}

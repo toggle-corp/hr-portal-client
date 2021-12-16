@@ -69,7 +69,7 @@ function Leave(props: Props) {
         createStringColumn<Program, string>(
             'duration',
             'Duration',
-            (item) => (item?.numOfDays).toString(),
+            (item) => (item && item?.numOfDays).toString(),
             {
                 sortable: true,
                 orderable: true,
@@ -123,7 +123,7 @@ function Leave(props: Props) {
                 <TableView
                     keySelector={tableKeySelector}
                     columns={columns}
-                    data={result?.leaves?.results}
+                    data={result && result?.leaves?.results}
                 />
             </div>
             <LeaveModal

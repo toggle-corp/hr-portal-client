@@ -9,11 +9,11 @@
     table {
         background-color: var(--dui-color-foreground);
         cursor: pointer;
+        width: 100%;
     }
 
     table > thead > tr > th {
-        border-bottom: var(--dui-width-separator-thin) solid var(--dui-color-table-border) !important;
-        background-color: var(--dui-color-foreground);
+        background: var(--dui-color-foreground);
         height: 45px;
     }
 

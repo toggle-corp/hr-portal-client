@@ -237,7 +237,8 @@ function LeaveModal(props: Props) {
     const getDaysArray = useCallback(
         (start: Date, end: Date) => {
             const arr: string[] = [];
-            for (let dt = new Date(start); dt <= end; dt.setDate(dt.getDate() + 1)) {
+            for (let dt = new Date(start); dt <= end;) {
+                dt.setDate(dt.getDate() + 1);
                 if (new Date(dt).getDay() !== 0 && new Date(dt).getDay() !== 6) {
                     arr.push(new Date(dt).toISOString().split('T')[0]);
                 }

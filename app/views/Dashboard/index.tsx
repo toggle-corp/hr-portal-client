@@ -16,6 +16,7 @@ interface Props {
 const TodayLeave = gql`
     query TodayOnLeave {
         todayOnLeave {
+            id
             typeDisplay
             user
         }

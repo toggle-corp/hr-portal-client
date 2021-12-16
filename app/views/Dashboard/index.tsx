@@ -18,7 +18,6 @@ const TodayLeave = gql`
         todayOnLeave {
             typeDisplay
             user
-            additionalInformation
         }
     }
 `;
@@ -57,7 +56,7 @@ function Dashboard(props: Props) {
                 </Button>
             </div>
             <div className={styles.todayLeaveContainer}>
-                <div className={styles.title}>Today</div>
+                <div className={styles.title}>Today Leave</div>
                 <div className={styles.leaveLists}>
                     {data?.todayOnLeave?.map((item) => (
                         <div
@@ -65,9 +64,7 @@ function Dashboard(props: Props) {
                             className={styles.todayLeaveUser}
                         >
                             <div><IoHomeSharp /></div>
-                            <div>
-                                {`${item?.user}  ${item?.additionalInformation}`}
-                            </div>
+                            <div>{item?.user}</div>
                         </div>
                     ))}
                 </div>

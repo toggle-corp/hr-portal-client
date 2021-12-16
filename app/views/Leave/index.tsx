@@ -48,15 +48,6 @@ function Leave(props: Props) {
 
     const columns = [
         createStringColumn<Program, string>(
-            'sn',
-            'S.No.',
-            (item) => item.id,
-            {
-                sortable: true,
-                orderable: true,
-            },
-        ),
-        createStringColumn<Program, string>(
             'requestDayType',
             'Request Type',
             (item) => item?.requestDayType,

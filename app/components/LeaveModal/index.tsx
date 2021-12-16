@@ -84,18 +84,23 @@ interface Props {
     modalShown?: boolean;
     handleModalClose: () => void;
 }
+type ExtraFormField = {
+    additionalInformation?: string | undefined | null;
+    type: string | undefined;
+    leaveDays: LeaveDayInputType[];
+    numOfDays?: number | undefined;
+    startDate?: number | undefined;
+}
 
-type FormType = PartialForm<NonNullable<EnumFix<LeaveApplyInputType, 'type' | 'status'>>>;
+type FormType = PartialForm<NonNullable<EnumFix<ExtraFormField, 'type' | 'status'>>>;
 type FormSchema = ObjectSchema<FormType>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>;
 
 const schema: FormSchema = {
     fields: (): FormSchemaFields => ({
         type: [requiredCondition],
-        numOfDays: [],
         leaveDays: [requiredCondition],
         additionalInformation: [],
-        startDate: [],
     }),
 };
 
@@ -179,7 +184,7 @@ function LeaveModal(props: Props) {
                     });
                     handleModalClose();
                     getLeaveList({});
-                    setFieldValue(null, 'numOfDays');
+                    setFieldValue(undefined, 'numOfDays');
                     setFieldValue(null, 'additionalInformation');
                     setDateRange(null);
                     setDateLists([]);
@@ -214,7 +219,7 @@ function LeaveModal(props: Props) {
     );
 
     const handleRadio = useCallback(
-        async (e: string | undefined, el: string) => {
+        (e: string | undefined, el: string) => {
             const updatedData = value?.leaveDays?.map(
                 (x) => (x.date === el ? { ...x, type: e } : x),
             );
@@ -242,7 +247,7 @@ function LeaveModal(props: Props) {
         [],
     );
 
-    const convertArrayToObject = useCallback(
+    const defaultLeaveDays = useCallback(
         (data: string[]) => {
             const arrayObject: EnumFix<Array<LeaveDayInputType>, 'type'> = [];
             data.map((item) => {
@@ -262,10 +267,10 @@ function LeaveModal(props: Props) {
         (e) => {
             setDateRange(e);
             const dayList = getDaysArray(new Date(e.startDate), new Date(e.endDate));
-            convertArrayToObject(dayList);
+            defaultLeaveDays(dayList);
             setDateLists(dayList);
         },
-        [getDaysArray, convertArrayToObject],
+        [getDaysArray, defaultLeaveDays],
     );
 
     if (!modalShown) {

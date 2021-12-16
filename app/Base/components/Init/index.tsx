@@ -18,8 +18,6 @@ const ME = gql`
             firstName
             isActive
             lastName
-            remainingLeave
-            totalLeavesDays
         }
     }
 `;
@@ -33,6 +31,7 @@ function Init(props: Props) {
         className,
         children,
     } = props;
+
     const {
         setUser,
     } = useContext(UserContext);
@@ -44,7 +43,7 @@ function Init(props: Props) {
     useQuery<MeQuery>(ME, {
         fetchPolicy: 'network-only',
         onCompleted: (data) => {
-            const safeMe = removeNull(data.me);
+            const safeMe = removeNull(data?.me);
             if (safeMe) {
                 setUser(safeMe);
                 // setProject(safeMe.lastActiveProject ?? undefined);

@@ -27,10 +27,6 @@ import {
     LoginMutationVariables,
 } from '#generated/types';
 import UserContext from '#base/context/UserContext';
-import {
-    ObjectError,
-    transformToFormError,
-} from '#base/utils/errorTransform';
 
 import styles from './styles.css';
 
@@ -41,6 +37,8 @@ const LOGIN = gql`
             id
             firstName
             lastName
+            totalLeavesDays
+            remainingLeave
         }
         ok
         errors
@@ -89,10 +87,8 @@ function Login() {
                 } = loginRes;
 
                 if (errors) {
-                    const formError = transformToFormError(removeNull(errors) as ObjectError[]);
                     setError({
-                        ...formError,
-                        [internal]: formError?.login as unknown as string,
+                        [internal]: 'Invalid username or password',
                     });
                 } else if (ok) {
                     // NOTE: there can be case where errors is empty but it still errored
@@ -123,6 +119,9 @@ function Login() {
                 <form
                     onSubmit={createSubmitHandler(validate, setError, handleSubmit)}
                 >
+                    <p className={styles.inActive}>
+                        {error?.[internal]}
+                    </p>
                     <TextInput
                         label="Username"
                         name="username"

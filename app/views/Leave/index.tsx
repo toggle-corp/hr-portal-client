@@ -123,7 +123,7 @@ function Leave(props: Props) {
                 <TableView
                     keySelector={tableKeySelector}
                     columns={columns}
-                    data={result?.leaves?.results ?? undefined}
+                    data={result && result?.leaves?.results}
                 />
             </div>
             <LeaveModal

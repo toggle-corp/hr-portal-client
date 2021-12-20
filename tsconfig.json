@@ -1,10 +1,13 @@
 {
+    "include": [
+        "src"
+    ],
     "compilerOptions": {
         "isolatedModules": true,
         "jsx": "react",
         "module": "esnext",
         "noEmit": true,
-        "rootDir": ".",
+        "rootDir": "./src",
         "target": "esnext",
 
         "strict": true,
@@ -16,9 +19,15 @@
 
         "paths": {
             "#generated/*": ["./generated/*"],
-            "#components/*": ["./app/components/*"],
-            "#views/*": ["./app/views/*"],
-            "#base/*": ["./app/Base/*"],
+            "#components/*": ["./src/components/*"],
+            "#config/*": ["./src/config/*"],
+            "#resources/*": ["./src/resources/*"],
+            "#utils/*": ["./src/utils/*"],
+            "#views/*": ["./src/views/*"],
+            "#types/*": ["./src/types/*"],
+            "#types": ["./src/types"],
+            "#hooks/*": ["./src/hooks/*"],
+            "#hooks": ["./src/hooks"]
         },
 
         "noFallthroughCasesInSwitch": true,
@@ -29,10 +38,5 @@
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
         "skipLibCheck": true
-    },
-    "include": [
-        "./generated/types.tsx",
-        "./app/declarations",
-        "./app/index.tsx"
-    ]
+    }
 }

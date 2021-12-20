@@ -1,0 +1,8 @@
+.leave-modal{
+    justify-content: center;
+    width: calc(100vw / 2);
+
+    .btn-submit {
+        color:var(--color-text-on-primary);
+    }
+}

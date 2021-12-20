@@ -1,16 +1,13 @@
-FROM node:17-buster-slim AS base
+FROM node:12.22-alpine
 
 MAINTAINER togglecorp info@togglecorp.com
 
-RUN apt-get update -y \
-    && apt-get install -y --no-install-recommends \
-        git bash python3 g++ make
-
 WORKDIR /code
 
-FROM base AS full-client
-
-COPY ./package.json ./yarn.lock /code/
-RUN yarn install --frozen-lockfile
+COPY ./package.json /code/package.json
+# RUN yarn install --network-concurrency 1
+RUN apk update \
+    && apk add --no-cache --virtual .build-deps\
+        git
 
 COPY . /code/

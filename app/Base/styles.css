@@ -1,0 +1,35 @@
+.base {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    font-size: var(--dui-font-size-medium);
+
+    .side-nav, .navbar {
+        flex-shrink: 0;
+
+        &.hidden {
+            display: none;
+        }
+    }
+
+    .view,
+    .init {
+        flex-grow: 1;
+        padding: var(--dui-spacing-large) var(--dui-spacing-extra-large);
+        overflow: auto;
+    }
+
+    .alert-container {
+        position: fixed;
+        top: var(--dui-spacing-large);
+        right: var(--dui-spacing-large);
+        z-index: 1;
+        width: 20rem;
+    }
+
+    .content-layout {
+        flex-grow: 2;
+        background-color: var(--dui-color-background);
+        overflow: auto;
+    }
+}

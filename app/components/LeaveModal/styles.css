@@ -1,0 +1,20 @@
+.leave-modal{
+    --color-primary: #e8833a;
+
+    justify-content: center;
+    padding: var(--dui-spacing-large);
+    width: calc(100vw / 2);
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .btn-submit {
+        border: none;
+        border-radius: 4px;
+        background-color: var(--color-primary);
+        color:var(--dui-color-white);
+    }
+}

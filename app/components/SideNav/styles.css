@@ -1,0 +1,17 @@
+.side-nav {
+    --color-border:#ebe5e5;
+
+    border-right: 1px solid var(--color-border);
+    background-color: var(--dui-color-white);
+    width: 200px;
+    height: 100vh;
+
+    .logo-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        border-bottom: 1px solid var(--color-border);
+        padding: var(--dui-spacing-small) var(--dui-spacing-medium);
+        height: 46px;
+    }
+}

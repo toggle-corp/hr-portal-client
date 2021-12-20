@@ -37,8 +37,6 @@ const LOGIN = gql`
             id
             firstName
             lastName
-            totalLeavesDays
-            remainingLeave
         }
         ok
         errors

@@ -59,13 +59,13 @@ function Dashboard(props: Props) {
             <div className={styles.todayLeaveContainer}>
                 <div className={styles.title}>Today Leave</div>
                 <div className={styles.leaveLists}>
-                    {data?.todayOnLeave?.map((item) => (
+                    {data && data?.todayOnLeave?.map((item) => (
                         <div
                             key={item?.user}
                             className={styles.todayLeaveUser}
                         >
                             <div><IoHomeSharp /></div>
-                            <div>{item?.user}</div>
+                            <div>{item && item?.user}</div>
                         </div>
                     ))}
                 </div>

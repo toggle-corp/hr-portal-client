@@ -2,7 +2,7 @@ import React, { useContext, useState, useMemo } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { removeNull } from '@togglecorp/toggle-form';
 
-import { UserContext, UserContextInterface } from '#base/context/UserContext';
+import { UserContext } from '#base/context/UserContext';
 import PreloadMessage from '#base/components/PreloadMessage';
 import { Project } from '#base/types/project';
 import { MeQuery } from '#generated/types';
@@ -11,13 +11,15 @@ import {
     ProjectContextInterface,
 } from '#base/context/ProjectContext';
 
-const ME = gql`
+export const ME = gql`
     query Me {
         me {
             id
             firstName
             isActive
             lastName
+            totalLeavesDays
+            remainingLeave
         }
     }
 `;

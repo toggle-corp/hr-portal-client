@@ -198,23 +198,25 @@ function Base() {
                                     <Init
                                         className={styles.init}
                                     >
-                                        <SideNav
-                                            className={_cs(
-                                                styles.sideNav,
-                                                !navbarVisibility && styles.hidden,
-                                            )}
-                                        />
-                                        <div className={styles.contentLayout}>
-                                            <Navbar
+                                        <>
+                                            <SideNav
                                                 className={_cs(
-                                                    styles.navbar,
+                                                    styles.sideNav,
                                                     !navbarVisibility && styles.hidden,
                                                 )}
                                             />
-                                            <Routes
-                                                className={styles.view}
-                                            />
-                                        </div>
+                                            <div className={styles.contentLayout}>
+                                                <Navbar
+                                                    className={_cs(
+                                                        styles.navbar,
+                                                        !navbarVisibility && styles.hidden,
+                                                    )}
+                                                />
+                                                <Routes
+                                                    className={styles.view}
+                                                />
+                                            </div>
+                                        </>
                                     </Init>
                                 </Router>
                             </AlertContext.Provider>

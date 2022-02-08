@@ -65,7 +65,11 @@ function Dashboard(props: Props) {
                             className={styles.todayLeaveUser}
                         >
                             <div><IoHomeSharp /></div>
-                            <div>{item && item?.user}</div>
+                            <div>
+                                {item && item?.user}
+                                -
+                                {item && item.typeDisplay}
+                            </div>
                         </div>
                     ))}
                 </div>
